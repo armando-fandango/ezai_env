@@ -1,0 +1,98 @@
+#python==3.7
+pytest
+ddt
+cython
+pip
+#  - cudatoolkit=10.2
+numpy
+scipy
+pandas>=1.1.0    # previously used was: 0.25.2
+matplotlib
+#rapids==0.14
+#graph related
+networkx
+# text related
+nltk
+gensim
+spacy
+#- textblob
+wordcloud
+# visualization related
+ipympl
+pytest-mpl
+seaborn
+bokeh
+plotly
+#- plotnine
+#- ggplot
+graphviz
+#- tabulate
+# geospatial related
+proj
+basemap
+basemap-data-hires
+geopandas
+descartes # for geopandas
+folium
+selenium # for folium
+    # bayesian
+arviz
+    # ml/dl related
+statsmodels
+scikit-learn
+scikit-optimize
+gym
+    # datasets
+kaggle     # only needed for kaggle plugin
+    # clouds
+    #- awscli
+    #- boto3
+    # other
+tqdm
+opencv
+python-snappy
+  #  - fastparquet
+pyarrow
+  #  - blas>=1=mkl
+    #- r
+    #- r-irkernel
+    #- tini
+    #- rapids
+dask
+h5py
+    #- ipyparallel
+hyperopt
+    #- hyperas
+confuse
+visions
+imagehash
+    #- missingno
+phik
+bidict
+    # code formatting
+yapf
+# **** required by pips
+# required by smac
+#gxx_linux-64 # required for smac
+#gcc_linux-64 # required for smac
+swig
+emcee
+# required by smac end
+# required by tf
+absl-py
+wrapt
+astunparse
+termcolor
+opt_einsum
+gast
+# required by tf ends
+# required by tensorboard
+grpcio
+markdown
+werkzeug
+google-auth-oauthlib
+# required by tensorboard
+# these should have already been installed by conda
+#pytorch==1.6.0
+#torchvision
+#fastai

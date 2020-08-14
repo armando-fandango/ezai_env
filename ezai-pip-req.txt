@@ -1,0 +1,28 @@
+# these software can't be found on conda channels hence installed through pip
+scikit-posthocs
+smac[all] #https://automl.github.io/SMAC3/master/
+# needed for smac
+lazy_import
+pynisher
+ConfigSpace
+pyrfr
+pydoe
+# needed for smac end
+pmdarima
+tensorflow>=2.2.0
+# needed for tensorflow
+tensorboard
+tensorboard-plugin-wit
+keras-preprocessing
+keras-tuner
+# needed for tensorflow ends
+#torch
+#torchvision
+#fastai
+cutecharts
+neo4j
+  #      - allennlp
+  #      - pytext-nlp # from facebook
+  #      - corenlp #from stanford
+mlagents #(for unity)
+mlagents_envs
