@@ -4,7 +4,7 @@ import torch
 
 class TestTorch(unittest.TestCase):
 
-    def test_cuda_available(self):
+    def test_torch_cuda_available(self):
         if torch.cuda.is_available():
 
             print('Torch Current GPU Device # and name:{} {}'.format(torch.cuda.current_device(),
