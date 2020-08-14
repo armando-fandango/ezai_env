@@ -6,7 +6,8 @@ source $(conda info --base)/etc/profile.d/conda.sh
 # add -k if ssl_verify needs to be set to false
 pkgs="jupyter notebook jupyter_contrib_nbextensions jupyter_nbextensions_configurator"
 
-venv=${venv:-/opt/conda/envs/ezai}
+#TODO: probably change this default to ~/envs once docker is implemented
+venv=${venv:-$/opt/conda/envs/ezai}
 py_ver=${py_ver:-3.7}
 
 while [ $# -gt 0 ]; do
