@@ -1,6 +1,6 @@
 # these software can't be found on conda channels hence installed through pip
-scikit-posthocs
-smac[all] #https://automl.github.io/SMAC3/master/
+# keep most imortant at the end
+
 # needed for smac
 lazy_import
 pynisher
@@ -8,17 +8,23 @@ ConfigSpace
 pyrfr
 pydoe
 # needed for smac end
+smac[all] #https://automl.github.io/SMAC3/master/
+
+scikit-posthocs
 pmdarima
-tensorflow>=2.2.0
+
 # needed for tensorflow
 tensorboard
 tensorboard-plugin-wit
 keras-preprocessing
 keras-tuner
 # needed for tensorflow ends
+tensorflow>=2.2.0
+# these should have already been installed by conda
 #torch
 #torchvision
 #fastai
+
 cutecharts
 neo4j
   #      - allennlp

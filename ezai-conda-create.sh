@@ -3,9 +3,14 @@
 # add -k if ssl_verify needs to be set to false
 pkgs="jupyter notebook jupyter_contrib_nbextensions jupyter_nbextensions_configurator"
 
+piptxt=${piptxt:-"./ezai-pip-req.txt"}
+condatxt=${condatxt:-"./ezai-conda-req.txt"}
+
 #TODO: probably change this default to ~/envs once docker is implemented
-venv=${venv:-$/opt/conda/envs/ezai}
+venv=${venv:-/opt/conda/envs/ezai}
 py_ver=${py_ver:-3.7}
+
+condareq+=
 
 while [ $# -gt 0 ]; do
 
@@ -47,8 +52,21 @@ channels+=" -c pytorch "
 channels+=" -c fastai "
 
 conda activate $venv && \
-    conda install -y -p $venv $channels $opts --file ./ezai-conda-req.txt --prune &&\
+    conda install -y -p $venv $channels -c defaults cudatoolkit=10.1 cudnn=7.6.5 &&\
+    conda install -y -p $venv $channels nccl mpi4py &&\
+    conda install -y -p $venv $channels $opts --file ${condatxt} --prune &&\
     # install pip with no-deps so it doesnt mess up conda installed versions
-    pip install --no-deps --use-feature 2020-resolver -r ./ezai-pip-req.txt
+    pip install --no-deps --use-feature 2020-resolver -r ${piptxt}
+
+echo " "
+echo " "
+echo " For Linux 64, Open MPI is built with CUDA awareness but this support is disabled by default."
+echo "To enable it, please set the environmental variable OMPI_MCA_opal_cuda_support=true before"
+echo "launching your MPI processes. Equivalently, you can set the MCA parameter in the command line:"
+echo "mpiexec --mca opal_cuda_support 1 ..."
+
+echo " "
+echo " "
+echo "Activate your environment with  conda activate ${venv}"
 
 

@@ -8,4 +8,6 @@ To create conda environment:
 - execute ezai-conda-create.sh --venv <location-of-env>  --python-ver <python-version>
     - \<location-of-env> is /opt/conda/envs/ezai by default
     - \<python-version> is 3.7 by default
+- conda activate <location-of-env>
+- pytest -p no:warnings -vv
     
