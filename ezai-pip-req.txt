@@ -32,3 +32,4 @@ neo4j
   #      - corenlp #from stanford
 mlagents #(for unity)
 mlagents_envs
+gym_unity

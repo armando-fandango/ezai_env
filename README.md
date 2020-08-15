@@ -10,4 +10,6 @@ To create conda environment:
     - \<python-version> is 3.7 by default
 - conda activate <location-of-env>
 - pytest -p no:warnings -vv
+
+You can supply your own requirements.txt files with --piptxt and --condatxt.
     
