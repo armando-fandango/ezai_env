@@ -4,12 +4,12 @@
 $pkgs="jupyter notebook jupyter_contrib_nbextensions jupyter_nbextensions_configurator"
 
 #TODO: probably change this default to ~/envs once docker is implemented
-param ($venv='/opt/conda/envs/ezai',py_ver='3.7',piptxt="./ezai-pip-req.txt",condatxt="./ezai-conda-req.txt")
+param ($venv='./ezai', py_ver='3.7', piptxt='./ezai-pip-req.txt', condatxt='./ezai-conda-req.txt')
 
 $opts=" --strict-channel-priority"
 $channels=" -c conda-forge "
 conda activate $venv || `
-    (Write-Host "$venv doesnt exist - creating now with python ${py_ver}..."; && `
+    (Write-Host "$venv doesnt exist - creating now with python $py_ver ..."; && `
     conda create -y  -p $venv $channels $opts python=$py_ver $pkgs && `
     conda activate $venv && `
     conda config --env --prepend channels conda-forge && `
