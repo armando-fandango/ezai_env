@@ -16,6 +16,7 @@ pmdarima
 # needed for tensorflow
 tensorboard
 tensorboard-plugin-wit
+keras-applications
 keras-preprocessing
 keras-tuner
 # needed for tensorflow ends
