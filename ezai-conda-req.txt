@@ -1,8 +1,4 @@
 #python==3.7
-jupyter
-notebook
-jupyter_contrib_nbextensions
-jupyter_nbextensions_configurator
 pytest
 ddt
 cython

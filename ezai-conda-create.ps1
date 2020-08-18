@@ -13,8 +13,9 @@ function ProceedOrExit {
 
 Write-Host "creating $venv with python $py_ver ..."
 echo "conda create -y -p $venv $channels $opts python=$py_ver"
-conda create -y -p $venv $channels $opts python=$py_ver $pkgs
+conda create -y -p $venv $channels $opts python=$py_ver
 conda activate $venv
+conda install -y -p $venv $channels jupyter notebook jupyter_contrib_nbextensions jupyter_nbextensions_configurator
 conda config --env --prepend channels conda-forge
 conda config --env --set channel_priority strict
 conda config --env --remove channels defaults
