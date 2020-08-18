@@ -5,15 +5,15 @@ param ($venv='c:/Miniconda3/envs/ezai', $py_ver='3.7', $piptxt='./ezai-pip-req.t
 
 # add -k if ssl_verify needs to be set to false
 $pkgs="jupyter notebook jupyter_contrib_nbextensions jupyter_nbextensions_configurator"
-$opts=" --strict-channel-priority"
-$channels=" --channel conda-forge "
+$opts="--strict-channel-priority"
+$channels="-c conda-forge"
 
 function ProceedOrExit {
     if ($?) { echo "Proceed.." } else { echo "Script FAILED! Exiting.."; exit 1 }
 }
 
 Write-Host "creating $venv with python $py_ver ..."
-echo "conda create -y  -p $venv $channels $opts python=$py_ver $pkgs"
+echo "conda create -y -p $venv $channels $opts python=$py_ver $pkgs"
 conda create -y  -p $venv $channels $opts python=$py_ver $pkgs
 conda activate $venv
 conda config --env --prepend channels conda-forge
