@@ -7,28 +7,39 @@ param ($venv='c:/Miniconda3/envs/ezai', $py_ver='3.7', $piptxt='./ezai-pip-req.t
 $pkgs="jupyter notebook jupyter_contrib_nbextensions jupyter_nbextensions_configurator"
 $opts=" --strict-channel-priority"
 $channels=" -c conda-forge "
-conda activate $venv || (Write-Host `
-    "$venv doesnt exist - creating now with python $py_ver ..." && `
-    conda create -y  -p $venv $channels $opts python=$py_ver $pkgs && `
-    conda activate $venv && `
-    conda config --env --prepend channels conda-forge && `
-    conda config --env --set channel_priority strict && `
-    conda config --env --remove channels defaults && `
-    conda config --set auto_activate_base false && `
-    jupyter nbextension enable code_prettify/code_prettify && `
-    jupyter nbextension enable toc2/main)
-    #jupyter nbextension enable ipyparallel && \
+
+function ProceedOrExit {
+    if ($?) { echo "Proceed.." } else { echo "Script FAILED! Exiting.."; exit 1 }
+}
+
+conda activate $venv
+if ($?) {
+  echo "$venv exists ..."
+} else {
+    Write-Host "$venv doesnt exist - creating now with python $py_ver ..."
+    conda create -y  -p $venv $channels $opts python=$py_ver $pkgs
+    conda activate $venv
+    conda config --env --prepend channels conda-forge
+    conda config --env --set channel_priority strict
+    conda config --env --remove channels defaults
+    conda config --set auto_activate_base false
+    jupyter nbextension enable code_prettify/code_prettify
+    jupyter nbextension enable toc2/main
+        #jupyter nbextension enable ipyparallel && \
+  }
 conda deactivate $VENV
 
 $channels+=" -c pytorch "
 $channels+=" -c fastai "
 
-conda activate $venv && `
-    conda install -y -p $venv $channels -c defaults cudatoolkit=10.1 cudnn=7.6.5 && `
-    conda install -y -p $venv $channels nccl mpi4py && `
-    conda install -y -p $venv $channels $opts --file $condatxt --prune && `
+conda activate $venv
+if ($?) {
+    conda install -y -p $venv $channels -c defaults cudatoolkit=10.1 cudnn=7.6.5
+    conda install -y -p $venv $channels nccl mpi4py
+    conda install -y -p $venv $channels $opts --file $condatxt --prune
     # install pip with no-deps so it doesnt mess up conda installed versions
     pip install --no-deps --use-feature 2020-resolver -r $piptxt
+  }
 
 Write-Host " "
 Write-Host " "
