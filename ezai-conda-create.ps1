@@ -1,11 +1,10 @@
 #!/usr/bin/env pwsh
 
-# add -k if ssl_verify needs to be set to false
-$pkgs="jupyter notebook jupyter_contrib_nbextensions jupyter_nbextensions_configurator"
-
 #TODO: probably change this default to ~/envs once docker is implemented
 param ($venv='c:/Miniconda3/envs/ezai', $py_ver='3.7', $piptxt='./ezai-pip-req.txt', $condatxt='./ezai-conda-req.txt')
 
+# add -k if ssl_verify needs to be set to false
+$pkgs="jupyter notebook jupyter_contrib_nbextensions jupyter_nbextensions_configurator"
 $opts=" --strict-channel-priority"
 $channels=" -c conda-forge "
 conda activate $venv || (Write-Host `
