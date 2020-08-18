@@ -13,7 +13,7 @@ function ProceedOrExit {
 
 Write-Host "creating $venv with python $py_ver ..."
 echo "conda create -y -p $venv $channels $opts python=$py_ver"
-conda create -y -p $venv $channels $opts python=$py_ver jupyter notebook jupyter_contrib_nbextensions jupyter_nbextensions_configurator
+conda create -y -p $venv $channels -c defaults $opts python=$py_ver jupyter notebook jupyter_contrib_nbextensions jupyter_nbextensions_configurator cudatoolkit=10.1 cudnn=7.6.5
 conda activate $venv
 conda config --env --prepend channels conda-forge
 conda config --env --set channel_priority strict
@@ -26,7 +26,7 @@ jupyter nbextension enable toc2/main
 $channels+=" -c pytorch "
 $channels+=" -c fastai "
 
-conda install -y -p $venv $channels -c defaults cudatoolkit=10.1 cudnn=7.6.5
+#conda install -y -p $venv $channels -c defaults cudatoolkit=10.1 cudnn=7.6.5
 conda install -y -p $venv $channels nccl mpi4py
 conda install -y -p $venv $channels $opts --file $condatxt --prune
     # install pip with no-deps so it doesnt mess up conda installed versions
