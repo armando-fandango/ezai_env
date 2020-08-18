@@ -4,7 +4,6 @@
 param ($venv='c:/Miniconda3/envs/ezai', $py_ver='3.7', $piptxt='./ezai-pip-req.txt', $condatxt='./ezai-conda-req.txt')
 
 # add -k if ssl_verify needs to be set to false
-$pkgs="jupyter notebook jupyter_contrib_nbextensions jupyter_nbextensions_configurator"
 $opts="--strict-channel-priority"
 $channels="-c conda-forge"
 
@@ -13,7 +12,7 @@ function ProceedOrExit {
 }
 
 Write-Host "creating $venv with python $py_ver ..."
-echo "conda create -y -p $venv $channels $opts python=$py_ver $pkgs"
+echo "conda create -y -p $venv $channels $opts python=$py_ver"
 conda create -y -p $venv $channels $opts python=$py_ver $pkgs
 conda activate $venv
 conda config --env --prepend channels conda-forge
