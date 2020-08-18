@@ -14,7 +14,7 @@ function ProceedOrExit {
 
 Write-Host "creating $venv with python $py_ver ..."
 echo "conda create -y -p $venv $channels $opts python=$py_ver $pkgs"
-conda create -y  -p $venv $channels $opts python=$py_ver $pkgs
+conda create -y -p $venv $channels $opts python=$py_ver $pkgs
 conda activate $venv
 conda config --env --prepend channels conda-forge
 conda config --env --set channel_priority strict
