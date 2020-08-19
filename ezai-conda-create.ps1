@@ -23,7 +23,6 @@ jupyter nbextension enable toc2/main
         #jupyter nbextension enable ipyparallel && \
 
 #conda install -y -p $venv $channels -c defaults cudatoolkit=10.1 cudnn=7.6.5
-conda install -y -p $venv -c conda-forge nccl mpi4py
 conda install -y -p $venv -c conda-forge -c pytorch -c fastai $opts --file $condatxt --prune
     # install pip with no-deps so it doesnt mess up conda installed versions
 pip install --no-deps --use-feature 2020-resolver -r $piptxt

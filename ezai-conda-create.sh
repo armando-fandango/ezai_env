@@ -52,9 +52,10 @@ channels+=" -c pytorch "
 channels+=" -c fastai "
 
 conda activate $venv && \
-    conda install -y -p $venv $channels -c defaults cudatoolkit=10.1 cudnn=7.6.5 &&\
-    conda install -y -p $venv $channels nccl mpi4py &&\
-    conda install -y -p $venv $channels $opts --file ${condatxt} --prune &&\
+    conda install -y -p $venv $channels -c defaults cudatoolkit=10.1 cudnn=7.6.5 && \
+    conda install -y -p $venv $channels nccl mpi4py && \
+    conda install -y -p $venv $channels gxx_linux-64 gcc_linux-64 && \
+    conda install -y -p $venv $channels $opts --file ${condatxt} --prune && \
     # install pip with no-deps so it doesnt mess up conda installed versions
     pip install --no-deps --use-feature 2020-resolver -r ${piptxt}
 

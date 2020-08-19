@@ -73,8 +73,6 @@ bidict
 yapf
 # **** required by pips
 # required by smac
-gxx_linux-64 # required for smac
-gcc_linux-64 # required for smac
 swig
 emcee
 # required by smac end
