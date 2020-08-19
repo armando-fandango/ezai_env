@@ -6,7 +6,7 @@ then
   export SHELLOPTS # should be after or before set ?
   set -o igncr # execute it manually for now it doesnt work
   source /cygdrive/c/Miniconda3/etc/profile.d/conda.sh
-  venv=${venv:-/cygdrive/c/Miniconda3/envs/ezai}
+  venv=${venv:-'c:/Miniconda3/envs/ezai'}
 else
   source $(conda info --base)/etc/profile.d/conda.sh
   #TODO: probably change this default to ~/envs once docker is implemented
