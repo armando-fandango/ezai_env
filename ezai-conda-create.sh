@@ -1,16 +1,26 @@
 #!/usr/bin/env bash
 
+# We imort conda command as sometimes it doesnt work otherwise
+if [[ "${OSTYPE}" == 'cygwin' ]]
+then
+  export SHELLOPTS # should be after or before set ?
+  set -o igncr # execute it manually for now it doesnt work
+  source /cygdrive/c/Miniconda3/etc/profile.d/conda.sh
+  venv=${venv:-/cygdrive/c/Miniconda3/envs/ezai}
+else
+  source $(conda info --base)/etc/profile.d/conda.sh
+  #TODO: probably change this default to ~/envs once docker is implemented
+  venv=${venv:-/opt/conda/envs/ezai}
+fi
+
 # add -k if ssl_verify needs to be set to false
 pkgs="jupyter notebook jupyter_contrib_nbextensions jupyter_nbextensions_configurator"
 
 piptxt=${piptxt:-"./ezai-pip-req.txt"}
 condatxt=${condatxt:-"./ezai-conda-req.txt"}
 
-#TODO: probably change this default to ~/envs once docker is implemented
-venv=${venv:-/opt/conda/envs/ezai}
-py_ver=${py_ver:-3.7}
 
-condareq+=
+py_ver=${py_ver:-3.7}
 
 while [ $# -gt 0 ]; do
 
@@ -23,15 +33,7 @@ while [ $# -gt 0 ]; do
   shift
 done
 
-# We imort conda command as sometimes it doesnt work otherwise
-if [[ "${OSTYPE}" == 'cygwin' ]]
-then
-  export SHELLOPTS # should be after or before set ?
-  set -o igncr # execute it manually for now it doesnt work
-  source /cygdrive/c/Miniconda3/etc/profile.d/conda.sh
-else
-  source $(conda info --base)/etc/profile.d/conda.sh
-fi
+
 
 opts=" --strict-channel-priority"
 channels=" -c conda-forge "
