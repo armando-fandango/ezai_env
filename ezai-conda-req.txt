@@ -3,7 +3,7 @@ pytest
 ddt
 cython
 pip
-numpy<1.9.0  # TODO: remove this once Tensorflow relxes this constraint
+numpy
 scipy
 pandas>=1.1.0
 hypothesis # needed by pandas but not installed as dep :-(
