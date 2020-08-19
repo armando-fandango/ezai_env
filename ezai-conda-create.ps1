@@ -23,16 +23,9 @@ jupyter nbextension enable toc2/main
         #jupyter nbextension enable ipyparallel && \
 
 #conda install -y -p $venv $channels -c defaults cudatoolkit=10.1 cudnn=7.6.5
-conda install -y -p $venv -c conda-forge -c pytorch -c fastai $opts --file $condatxt --prune
+conda install -y -p $venv -c conda-forge -c pytorch -c fastai -c defaults $opts --file $condatxt --prune
     # install pip with no-deps so it doesnt mess up conda installed versions
 pip install --no-deps --use-feature 2020-resolver -r $piptxt
-
-Write-Host " "
-Write-Host " "
-Write-Host " For Linux 64, Open MPI is built with CUDA awareness but this support is disabled by default."
-Write-Host "To enable it, please set the environmental variable OMPI_MCA_opal_cuda_support=true before"
-Write-Host "launching your MPI processes. Equivalently, you can set the MCA parameter in the command line:"
-Write-Host "mpiexec --mca opal_cuda_support 1 ..."
 
 Write-Host " "
 Write-Host " "
