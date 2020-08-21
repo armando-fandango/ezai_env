@@ -21,16 +21,18 @@ keras-preprocessing
 keras-tuner
 # needed for tensorflow ends
 tensorflow>=2.2.0
-# these should have already been installed by conda
-#torch
-#torchvision
-#fastai
+
+# needed for gym
+opencv-python
+atari-py
+# needed for gym end
+gym
 
 cutecharts
 neo4j
-  #      - allennlp
-  #      - pytext-nlp # from facebook
-  #      - corenlp #from stanford
-mlagents #(for unity)
+
+# unity begin
+mlagents
 mlagents_envs
 gym_unity
+# unity end

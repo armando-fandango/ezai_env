@@ -1,7 +1,7 @@
 #!/usr/bin/env pwsh
 
 #TODO: probably change this default to ~/envs once docker is implemented
-param ($venv='c:/Miniconda3/envs/ezai', $py_ver='3.7', $piptxt='./ezai-pip-req.txt', $condatxt='./ezai-conda-req.txt')
+param ($venv='c:/Miniconda3/envs/ezai', $py_ver='3.7.8', $piptxt='./ezai-pip-req.txt', $condatxt='./ezai-conda-req.txt')
 
 # add -k if ssl_verify needs to be set to false
 $opts="--strict-channel-priority"
@@ -11,24 +11,35 @@ function ProceedOrExit {
 }
 
 Write-Host "creating $venv with python $py_ver ..."
-echo "conda create -y -p $venv $channels $opts python=$py_ver"
-conda create -y -p $venv -c conda-forge -c defaults $opts python=$py_ver jupyter notebook jupyter_contrib_nbextensions jupyter_nbextensions_configurator cudatoolkit=10.1 cudnn=7.6.5
+echo "conda create -y -p $venv -c conda-forge python=$py_ver"
+conda create -y -p $venv -c conda-forge python=$py_ver
+
 conda activate $venv
 conda config --env --prepend channels conda-forge
 conda config --env --set channel_priority strict
 conda config --env --remove channels defaults
 conda config --set auto_activate_base false
+
+conda install -y -S -p $venv -c conda-forge "ipython>7.0" jupyter notebook jupyter_contrib_nbextensions jupyter_nbextensions_configurator yapf ipywidgets
 jupyter nbextension enable code_prettify/code_prettify
 jupyter nbextension enable toc2/main
-        #jupyter nbextension enable ipyparallel && \
+jupyter nbextension enable varInspector/main
+jupyter nbextension enable execute_time/ExecuteTime
+jupyter nbextension enable spellchecker/main
+jupyter nbextension enable scratchpad/main
+jupyter nbextension enable collapsible_headings/main
+jupyter nbextension enable codefolding/main
 
-#conda install -y -p $venv $channels -c defaults cudatoolkit=10.1 cudnn=7.6.5
-conda install -y -p $venv -c pytorch -c fastai -c conda-forge -c defaults $opts --file $condatxt --prune
-    # install pip with no-deps so it doesnt mess up conda installed versions
-pip install --use-feature 2020-resolver -r $piptxt
+conda install -y -S -p $venv -c conda-forge -c defaults cudatoolkit=10.1 cudnn=7.6.5
+#conda install -y -S -p $venv -c conda-forge nccl mpi4py gxx_linux-64 gcc_linux-64
+conda install -y -S -p $venv -c fastai -c pytorch -c conda-forge fastai=2.0.0 pytorch=1.6.0 torchvision=0.7.0 "numpy<1.19.0"
+
+conda install -y -S -p $venv -c fastai -c pytorch -c conda-forge --file $condatxt
+# install pip with no-deps so it doesnt mess up conda installed versions
+pip install --no-deps --use-feature 2020-resolver -r $piptxt
 
 Write-Host " "
 Write-Host " "
-Write-Host "Activate your environment with  conda activate ${venv}"
+Write-Host "Activate your environment with  conda activate $venv and then test with pytest -p no:warnings -vv"
 
 

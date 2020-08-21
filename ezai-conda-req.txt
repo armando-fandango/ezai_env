@@ -1,82 +1,66 @@
-#python==3.7
+# basic python env
 pytest
 ddt
 cython
 pip
-numpy
+
+# basic data science
+numpy<1.19.0  # remove once tensorflow
 scipy
 pandas>=1.1.0
-hypothesis # needed by pandas but not installed as dep :-(
 matplotlib
-#rapids==0.14
-#graph related
-networkx
-# text related
-nltk
-gensim
-spacy
-#- textblob
-wordcloud
-# visualization related
 ipympl
+
+#graph related
+networkx>=2.4
+
+# visualization related
 pytest-mpl
 seaborn
-bokeh
-plotly
-#- plotnine
-#- ggplot
-graphviz
-#- tabulate
+#bokeh
+#plotly
+#plotnine
+#ggplot
+#graphviz
+
 # geospatial related
-proj
-basemap
-basemap-data-hires
-geopandas
-descartes # for geopandas
+#proj
+#basemap
+#basemap-data-hires
+#geopandas
+#descartes # for geopandas
 folium
 selenium # for folium
-    # bayesian
-arviz
-    # ml/dl related
+
+# ml/dl/rl related
 statsmodels
 scikit-learn
 scikit-optimize
-gym
-    # datasets
-kaggle     # only needed for kaggle plugin
-    # clouds
-    #- awscli
-    #- boto3
-    # other
-tqdm
-opencv
+
+# clouds / datasets
+awscli
+boto3
+kaggle
+
+ffmpeg>=4.3
+opencv>=4.4
+
 python-snappy
-  #  - fastparquet
-pyarrow
-  #  - blas>=1=mkl
-    #- r
-    #- r-irkernel
-    #- tini
-    #- rapids
-dask
-h5py
-    #- ipyparallel
-hyperopt
-    #- hyperas
-confuse
-visions
-imagehash
-    #- missingno
-phik
+pyarrow>=1.0  #  dont use fastparquet
+dask>=2.23
+h5py>=2.10
+
 bidict
-    # code formatting
-yapf
+tqdm
+
 # **** required by pips
 # required by smac
 swig
 emcee
 # required by smac end
+
 # required by tf
+protobuf
 absl-py
 wrapt
 astunparse
@@ -84,12 +68,16 @@ termcolor
 opt_einsum
 gast
 # required by tf ends
+
 # required by tensorboard
 grpcio
 markdown
 werkzeug
 google-auth-oauthlib
 # required by tensorboard
-pytorch==1.6.0
-torchvision==0.7.0
-#fastai
+
+# required by gym
+imageio
+glfw
+box2d-py
+# required by gym end

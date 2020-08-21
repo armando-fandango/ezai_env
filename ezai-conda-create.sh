@@ -14,52 +14,57 @@ else
 fi
 
 # add -k if ssl_verify needs to be set to false
-pkgs="jupyter notebook jupyter_contrib_nbextensions jupyter_nbextensions_configurator"
+#pkgs="jupyter notebook jupyter_contrib_nbextensions jupyter_nbextensions_configurator"
 
 piptxt=${piptxt:-"./ezai-pip-req.txt"}
 condatxt=${condatxt:-"./ezai-conda-req.txt"}
 
-
-py_ver=${py_ver:-3.7}
+py_ver=${py_ver:-3.7.8}
 
 while [ $# -gt 0 ]; do
-
    if [[ $1 == *"--"* ]]; then
         param="${1/--/}"
         declare $param="$2"
         # echo $1 $2 // Optional to see the parameter:value result
    fi
-
   shift
 done
 
-
-
 opts=" --strict-channel-priority"
-channels=" -c conda-forge "
+
+conda clean -i
+
 conda activate $venv || \
-    (echo "${venv} doesnt exist - creating now with python ${py_ver}..." && \
-    conda create -y  -p $venv $channels $opts python=$py_ver $pkgs && \
+    (echo "$venv doesnt exist - creating now with python $py_ver ..." && \
+    conda create -y  -p $venv -c conda-forge python=$py_ver && \
     conda activate $venv && \
     conda config --env --prepend channels conda-forge && \
     conda config --env --set channel_priority strict && \
     conda config --env --remove channels defaults && \
-    conda config --set auto_activate_base false && \
-    jupyter nbextension enable code_prettify/code_prettify && \
-    jupyter nbextension enable toc2/main)
+    conda config --set auto_activate_base false)
     #jupyter nbextension enable ipyparallel && \
-conda deactivate $VENV
+conda deactivate
 
-channels+=" -c pytorch "
-channels+=" -c fastai "
-
+#channels+=" -c pytorch "
+#channels+=" -c fastai "
 conda activate $venv && \
-    conda install -y -p $venv $channels -c defaults cudatoolkit=10.1 cudnn=7.6.5 && \
-    conda install -y -p $venv $channels nccl mpi4py && \
-    conda install -y -p $venv $channels gxx_linux-64 gcc_linux-64 && \
-    conda install -y -p $venv $channels $opts --file ${condatxt} --prune && \
+    conda install -y -S -p $venv -c conda-forge "ipython>7.0" jupyter notebook jupyter_contrib_nbextensions jupyter_nbextensions_configurator yapf ipywidgets && \
+    jupyter nbextension enable code_prettify/code_prettify && \
+    jupyter nbextension enable toc2/main && \
+    jupyter nbextension enable varInspector/main && \
+    jupyter nbextension enable execute_time/ExecuteTime && \
+    jupyter nbextension enable spellchecker/main && \
+    jupyter nbextension enable scratchpad/main && \
+    jupyter nbextension enable collapsible_headings/main && \
+    jupyter nbextension enable codefolding/main && \
+
+    conda install -y -S -p $venv -c conda-forge -c defaults cudatoolkit=10.1 cudnn=7.6.5 && \
+    conda install -y -S -p $venv -c conda-forge "nccl>2.7" "mpi4py>3.0" gxx_linux-64 gcc_linux-64 && \
+    conda install -y -S -p $venv -c fastai -c pytorch -c conda-forge fastai=2.0.0 pytorch=1.6.0 torchvision=0.7.0 "numpy<1.19.0" && \
+
+    conda install -y -S -p $venv -c fastai -c pytorch -c conda-forge --file $condatxt && \
     # install pip with no-deps so it doesnt mess up conda installed versions
-    pip install --no-deps --use-feature 2020-resolver -r ${piptxt}
+    pip install --no-deps --use-feature 2020-resolver -r $piptxt
 
 echo " "
 echo " "
@@ -70,6 +75,6 @@ echo "mpiexec --mca opal_cuda_support 1 ..."
 
 echo " "
 echo " "
-echo "Activate your environment with  conda activate ${venv}"
+echo "Activate your environment with  conda activate $venv  and then test with pytest -p no:warnings -vv"
 
 
