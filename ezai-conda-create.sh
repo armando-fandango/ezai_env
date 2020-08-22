@@ -30,24 +30,19 @@ while [ $# -gt 0 ]; do
   shift
 done
 
-opts=" --strict-channel-priority"
-
-conda clean -i
-
-conda activate $venv || \
-    (echo "$venv doesnt exist - creating now with python $py_ver ..." && \
+install_python () {
+    echo "$venv doesnt exist - creating now with python $py_ver ..."
     conda create -y  -p $venv -c conda-forge python=$py_ver && \
     conda activate $venv && \
     conda config --env --prepend channels conda-forge && \
     conda config --env --set channel_priority strict && \
     conda config --env --remove channels defaults && \
-    conda config --set auto_activate_base false)
-    #jupyter nbextension enable ipyparallel && \
-conda deactivate
+    conda config --set auto_activate_base false
+    return $?
+}
 
-#channels+=" -c pytorch "
-#channels+=" -c fastai "
-conda activate $venv && \
+install_jupyter () {
+    echo "Installing jupyter ..."
     conda install -y -S -p $venv -c conda-forge "ipython>7.0" jupyter notebook jupyter_contrib_nbextensions jupyter_nbextensions_configurator yapf ipywidgets && \
     jupyter nbextension enable code_prettify/code_prettify && \
     jupyter nbextension enable toc2/main && \
@@ -56,15 +51,41 @@ conda activate $venv && \
     jupyter nbextension enable spellchecker/main && \
     jupyter nbextension enable scratchpad/main && \
     jupyter nbextension enable collapsible_headings/main && \
-    jupyter nbextension enable codefolding/main && \
+    jupyter nbextension enable codefolding/main
+    return $?
+}
 
+install_cuda () {
+    echo "Installing cuda ..."
     conda install -y -S -p $venv -c conda-forge -c defaults cudatoolkit=10.1 cudnn=7.6.5 && \
-    conda install -y -S -p $venv -c conda-forge "nccl>2.7" "mpi4py>3.0" gxx_linux-64 gcc_linux-64 && \
-    conda install -y -S -p $venv -c fastai -c pytorch -c conda-forge fastai=2.0.0 pytorch=1.6.0 torchvision=0.7.0 "numpy<1.19.0" && \
+    conda install -y -S -p $venv -c conda-forge "nccl>2.7" "mpi4py>3.0" gxx_linux-64 gcc_linux-64
+    return $?
+}
 
+install_pytorch () {
+  echo "Installing pytorch ..."
+  conda install -y -S -p $venv -c fastai -c pytorch -c conda-forge fastai=2.0.0 pytorch=1.6.0 torchvision=0.7.0 "numpy<1.19.0"
+  return $?
+}
+
+install_txt () {
     conda install -y -S -p $venv -c fastai -c pytorch -c conda-forge --file $condatxt && \
     # install pip with no-deps so it doesnt mess up conda installed versions
     pip install --no-deps --use-feature 2020-resolver -r $piptxt
+  return $?
+}
+
+opts=" --strict-channel-priority"
+
+conda clean -i
+
+conda activate $venv || install_python
+conda deactivate
+
+#channels+=" -c pytorch "
+#channels+=" -c fastai "
+conda activate $venv && (install_jupyter && install_cuda && install_pytorch && install_txt)
+conda deactivate
 
 echo " "
 echo " "
