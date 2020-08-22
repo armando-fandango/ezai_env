@@ -1,10 +1,11 @@
 # basic python env
-pytest
+pytest>=5.0.1
 ddt
 cython
 pip
 
 # basic data science
+hypothesis>=3.58 # needed by pandas but doesnt install on win64
 numpy<1.19.0  # remove once tensorflow
 scipy
 pandas>=1.1.0
