@@ -56,8 +56,8 @@ tqdm
 
 # **** required by pips
 # required by smac
-swig
-emcee
+# swig
+# emcee
 # required by smac end
 
 # required by tf
