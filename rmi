@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# remove the docker image
+
+source .env
+
+docker rmi $iname --no-prune
