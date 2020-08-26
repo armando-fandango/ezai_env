@@ -34,7 +34,7 @@ install_python () {
     echo "$venv doesnt exist - creating now with python $py_ver ..."
     conda create -y  -p $venv -c conda-forge python=$py_ver && \
     conda activate $venv && \
-    conda config --env --prepend channels conda-forge && \
+    conda config --env --append channels conda-forge && \
     conda config --env --set channel_priority strict && \
     conda config --env --remove channels defaults && \
     conda config --set auto_activate_base false
@@ -43,7 +43,7 @@ install_python () {
 
 install_jupyter () {
     echo "Installing jupyter ..."
-    conda install -y -S -p $venv -c conda-forge "ipython>7.0" jupyter notebook jupyter_contrib_nbextensions jupyter_nbextensions_configurator yapf ipywidgets && \
+    conda install -y -S -c conda-forge "ipython>7.0" "jupyter>=1.0.0" "notebook>=6.1.0" jupyter_contrib_nbextensions jupyter_nbextensions_configurator yapf ipywidgets && \
     jupyter nbextension enable code_prettify/code_prettify && \
     jupyter nbextension enable toc2/main && \
     jupyter nbextension enable varInspector/main && \
@@ -57,19 +57,21 @@ install_jupyter () {
 
 install_cuda () {
     echo "Installing cuda ..."
-    conda install -y -S -p $venv -c conda-forge -c defaults cudatoolkit=10.1 cudnn=7.6.5 && \
-    conda install -y -S -p $venv -c conda-forge "nccl>2.7" "mpi4py>3.0" gxx_linux-64 gcc_linux-64
+    conda install -y -S -c conda-forge -c defaults cudatoolkit=10.1 cudnn=7.6.5 && \
+    conda install -y -S "nccl>2.7" "mpi4py>3.0" gxx_linux-64 gcc_linux-64
     return $?
 }
 
-install_pytorch () {
-  echo "Installing pytorch ..."
-  conda install -y -S -p $venv -c fastai -c pytorch -c conda-forge fastai=2.0.0 pytorch=1.6.0 torchvision=0.7.0 "numpy<1.19.0"
+install_fastai_pytorch () {
+  echo "Installing fastai and pytorch ..."
+  conda config --env --prepend channels pytorch
+  conda config --env --prepend channels fastai
+  conda install -y -S fastai=2.0.0 pytorch=1.6.0 torchvision=0.7.0 "numpy<1.19.0"
   return $?
 }
 
 install_txt () {
-    conda install -y -S -p $venv -c fastai -c pytorch -c conda-forge --file $condatxt && \
+    conda install -y -S --file $condatxt && \
     # install pip with no-deps so it doesnt mess up conda installed versions
     pip install --no-deps --use-feature 2020-resolver -r $piptxt
   return $?
@@ -84,7 +86,7 @@ conda deactivate
 
 #channels+=" -c pytorch "
 #channels+=" -c fastai "
-conda activate $venv && (install_jupyter && install_cuda && install_pytorch && install_txt)
+conda activate $venv && (install_jupyter && install_cuda && install_fastai_pytorch && install_txt)
 conda deactivate
 
 echo " "

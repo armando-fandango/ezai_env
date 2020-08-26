@@ -4,25 +4,32 @@ ddt
 cython
 pip
 
+# python related
+attrs
+cattrs
+bidict
+tqdm
+
 # basic data science
 hypothesis>=3.58 # needed by pandas but doesnt install on win64
 numpy<1.19.0  # remove once tensorflow
-scipy
+scipy>=1.5.0
 pandas>=1.1.0
-matplotlib
+matplotlib>=3.3.0
 ipympl
 
 #graph related
 networkx>=2.4
+neo4j-python-driver>=4.1.0
 
 # visualization related
 pytest-mpl
-seaborn
-#bokeh
+seaborn>=0.10.0
+bokeh>=2.0.0
 #plotly
 #plotnine
-#ggplot
-#graphviz
+#ggplot>=0.11.0
+graphviz
 
 # geospatial related
 #proj
@@ -33,9 +40,20 @@ seaborn
 folium
 selenium # for folium
 
+# text related
+# nltk>=3.4.0
+# gensim>=3.8.0
+# spacy>=2.3.0
+# textblob
+# wordcloud>=1.8.0
+
+# image / vision related
+ffmpeg>=4.3
+opencv>=4.4
+
 # ml/dl/rl related
-statsmodels
-scikit-learn
+statsmodels>=0.11.0
+scikit-learn>=0.23.0
 scikit-optimize
 
 # clouds / datasets
@@ -43,16 +61,10 @@ awscli
 boto3
 kaggle
 
-ffmpeg>=4.3
-opencv>=4.4
-
 python-snappy
 pyarrow>=1.0  #  dont use fastparquet
 dask>=2.23
 h5py>=2.10
-
-bidict
-tqdm
 
 # **** required by pips
 # required by smac
