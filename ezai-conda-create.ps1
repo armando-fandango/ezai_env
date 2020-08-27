@@ -15,7 +15,7 @@ echo "conda create -y -p $venv -c conda-forge python=$py_ver"
 conda create -y -p $venv -c conda-forge python=$py_ver
 
 conda activate $venv
-conda config --env --prepend channels conda-forge
+conda config --env --append channels conda-forge
 conda config --env --set channel_priority strict
 conda config --env --remove channels defaults
 conda config --set auto_activate_base false
@@ -32,6 +32,9 @@ jupyter nbextension enable codefolding/main
 
 conda install -y -S -p $venv -c conda-forge -c defaults cudatoolkit=10.1 cudnn=7.6.5
 #conda install -y -S -p $venv -c conda-forge nccl mpi4py gxx_linux-64 gcc_linux-64
+conda config --env --prepend channels pytorch
+conda config --env --prepend channels fastai
+
 conda install -y -S -p $venv -c fastai -c pytorch -c conda-forge fastai=2.0.0 pytorch=1.6.0 torchvision=0.7.0 "numpy<1.19.0"
 
 conda install -y -S -p $venv -c fastai -c pytorch -c conda-forge --file $condatxt
