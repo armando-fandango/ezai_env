@@ -44,11 +44,11 @@ folium
 selenium # for folium
 
 # text related
-# nltk>=3.4.0
-# gensim>=3.8.0
-# spacy>=2.3.0
+nltk>=3.4.0
+gensim>=3.8.0
+spacy>=2.3.0
 # textblob
-# wordcloud>=1.8.0
+wordcloud>=1.8.0
 
 # image / vision related
 ffmpeg>=4.3

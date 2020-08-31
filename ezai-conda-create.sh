@@ -31,73 +31,82 @@ while [ $# -gt 0 ]; do
 done
 
 install_python () {
-    echo "$venv doesnt exist - creating now with python $py_ver ..."
-    conda create -y  -p $venv -c conda-forge python=$py_ver && \
-    conda activate $venv && \
-    conda config --env --append channels conda-forge && \
-    conda config --env --set channel_priority strict && \
-    conda config --env --remove channels defaults && \
-    conda config --set auto_activate_base false
-    return $?
+  echo "$venv doesnt exist - creating now with python $py_ver ..."
+  conda create -y  -p $venv -c conda-forge python=$py_ver && \
+  conda activate $venv && \
+  conda config --env --append channels conda-forge && \
+  #conda config --env --set channel_priority strict && \
+  conda config --env --remove channels defaults && \
+  conda config --set auto_activate_base false
+  return $?
 }
 
 install_jupyter () {
-    echo "Installing jupyter ..."
-    conda install -y -S -c conda-forge "ipython>7.0" "jupyter>=1.0.0" "notebook>=6.1.0" jupyter_contrib_nbextensions jupyter_nbextensions_configurator yapf ipywidgets && \
-    jupyter nbextension enable code_prettify/code_prettify && \
-    jupyter nbextension enable toc2/main && \
-    jupyter nbextension enable varInspector/main && \
-    jupyter nbextension enable execute_time/ExecuteTime && \
-    jupyter nbextension enable spellchecker/main && \
-    jupyter nbextension enable scratchpad/main && \
-    jupyter nbextension enable collapsible_headings/main && \
-    jupyter nbextension enable codefolding/main
-    return $?
+  echo "Installing jupyter ..."
+  conda install -y -S -c conda-forge "ipython>=7.0.0" "notebook>=6.0.0" jupyter_contrib_nbextensions jupyter_nbextensions_configurator yapf ipywidgets && \
+  jupyter nbextension enable code_prettify/code_prettify && \
+  jupyter nbextension enable toc2/main && \
+  jupyter nbextension enable varInspector/main && \
+  jupyter nbextension enable execute_time/ExecuteTime && \
+  jupyter nbextension enable spellchecker/main && \
+  jupyter nbextension enable scratchpad/main && \
+  jupyter nbextension enable collapsible_headings/main && \
+  jupyter nbextension enable codefolding/main
+  return $?
 }
 
 install_cuda () {
-    echo "Installing cuda ..."
-    conda install -y -S -c conda-forge -c defaults cudatoolkit=10.1 cudnn=7.6.5 && \
-    conda install -y -S "nccl>2.7" "mpi4py>3.0" gxx_linux-64 gcc_linux-64
-    return $?
+  echo "Installing cuda ..."
+  conda install -y -S -c conda-forge -c defaults "cudatoolkit=10.1" "cudnn>=7.6.5" && \
+  conda install -y -S "nccl" "mpi4py>=3.0.0" gxx_linux-64 gcc_linux-64
+  return $?
 }
 
 install_fastai_pytorch () {
   echo "Installing fastai and pytorch ..."
   conda config --env --prepend channels pytorch
   conda config --env --prepend channels fastai
-  conda install -y -S fastai=2.0.0 pytorch=1.6.0 torchvision=0.7.0 "numpy<1.19.0"
+  conda config --show-sources
+  conda install -y -S "fastai=2.0.0" "pytorch=1.6.0" "torchvision=0.7.0" "numpy<1.19.0"
   return $?
 }
 
 install_txt () {
-    conda install -y -S --file $condatxt && \
-    # install pip with no-deps so it doesnt mess up conda installed versions
-    pip install --no-deps --use-feature 2020-resolver -r $piptxt
+  conda config --show-sources
+  conda install -y -S --file $condatxt && \
+  # install pip with no-deps so it doesnt mess up conda installed versions
+  pip install --no-deps --use-feature 2020-resolver -r $piptxt
   return $?
 }
 
 opts=" --strict-channel-priority"
 
 conda clean -i
+echo "setting base conda to 4.6.14"
+conda activate base
+conda config --set auto_update_conda False
+conda install -y -S conda=4.6.14
+conda deactivate
 
 conda activate $venv || install_python
 conda deactivate
 
 #channels+=" -c pytorch "
 #channels+=" -c fastai "
-conda activate $venv && (install_jupyter && install_cuda && install_fastai_pytorch && install_txt)
+conda activate $venv && ( install_jupyter && install_cuda && install_fastai_pytorch && install_txt )
+
+if ! [[ $? ]]
+then
+  echo " "
+  echo " "
+  echo " For Linux 64, Open MPI is built with CUDA awareness but this support is disabled by default."
+  echo "To enable it, please set the environmental variable OMPI_MCA_opal_cuda_support=true before"
+  echo "launching your MPI processes. Equivalently, you can set the MCA parameter in the command line:"
+  echo "mpiexec --mca opal_cuda_support 1 ..."
+
+  echo " "
+  echo " "
+  echo "Activate your environment with  conda activate $venv  and then test with pytest -p no:warnings -vv"
+fi
+
 conda deactivate
-
-echo " "
-echo " "
-echo " For Linux 64, Open MPI is built with CUDA awareness but this support is disabled by default."
-echo "To enable it, please set the environmental variable OMPI_MCA_opal_cuda_support=true before"
-echo "launching your MPI processes. Equivalently, you can set the MCA parameter in the command line:"
-echo "mpiexec --mca opal_cuda_support 1 ..."
-
-echo " "
-echo " "
-echo "Activate your environment with  conda activate $venv  and then test with pytest -p no:warnings -vv"
-
-

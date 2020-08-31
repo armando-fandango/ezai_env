@@ -10,6 +10,12 @@ function ProceedOrExit {
     if ($?) { echo "Proceed.." } else { echo "Script FAILED! Exiting.."; exit 1 }
 }
 
+Write-Host "setting base conda to 4.6.14"
+conda activate base
+conda config --set auto_update_conda False
+conda install -y conda=4.6.14
+conda deactivate
+
 Write-Host "creating $venv with python $py_ver ..."
 echo "conda create -y -p $venv -c conda-forge python=$py_ver"
 conda create -y -p $venv -c conda-forge python=$py_ver
