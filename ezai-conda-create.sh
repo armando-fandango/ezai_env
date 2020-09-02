@@ -10,7 +10,7 @@ then
 else
   source $(conda info --base)/etc/profile.d/conda.sh
   #TODO: probably change this default to ~/envs once docker is implemented
-  venv=${venv:-/opt/conda/envs/ezai}
+  venv=${venv:-$(conda info --base)/envs/ezai}
 fi
 
 # add -k if ssl_verify needs to be set to false
@@ -51,10 +51,9 @@ install_jupyter () {
   jupyter nbextension enable spellchecker/main && \
   jupyter nbextension enable scratchpad/main && \
   jupyter nbextension enable collapsible_headings/main && \
-  jupyter nbextension enable codefolding/main
+  jupyter nbextension enable codefolding/main && \
   return $?
 }
-
 install_cuda () {
   echo "Installing cuda ..."
   conda install -y -S -c conda-forge -c defaults "cudatoolkit=10.1" "cudnn>=7.6.5" && \
