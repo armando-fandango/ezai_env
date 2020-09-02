@@ -31,7 +31,7 @@ done
 
 install_python () {
   echo "$venv doesnt exist - creating now with python $py_ver ..."
-  conda create -y  -p $venv -c conda-forge python=$py_ver && \
+  conda create -y  -p $venv -c conda-forge python=$py_ver "conda=4.6.14" "pip=20.2.2" && \
   conda activate $venv && \
   conda config --env --append channels conda-forge && \
   #conda config --env --set channel_priority strict && \
