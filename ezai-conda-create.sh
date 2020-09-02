@@ -43,16 +43,17 @@ install_python () {
 install_jupyter () {
   echo "Installing jupyter ..."
   conda install -y -S -c conda-forge "ipython>=7.0.0" "notebook>=6.0.0" jupyter_contrib_nbextensions jupyter_nbextensions_configurator yapf ipywidgets && \
-  jupyter nbextension enable code_prettify/code_prettify && \
-  jupyter nbextension enable toc2/main && \
-  jupyter nbextension enable varInspector/main && \
-  jupyter nbextension enable execute_time/ExecuteTime && \
-  jupyter nbextension enable spellchecker/main && \
-  jupyter nbextension enable scratchpad/main && \
-  jupyter nbextension enable collapsible_headings/main && \
-  jupyter nbextension enable codefolding/main && \
+  jupyter nbextension enable --user code_prettify/code_prettify  && \
+  jupyter nbextension enable --user toc2/main && \
+  jupyter nbextension enable --user varInspector/main && \
+  jupyter nbextension enable --user execute_time/ExecuteTime && \
+  jupyter nbextension enable --user spellchecker/main && \
+  jupyter nbextension enable --user scratchpad/main && \
+  jupyter nbextension enable --user collapsible_headings/main && \
+  jupyter nbextension enable --user codefolding/main && \
   return $?
 }
+
 install_cuda () {
   echo "Installing cuda ..."
   conda install -y -S -c conda-forge -c defaults "cudatoolkit=10.1" "cudnn>=7.6.5" && \
