@@ -2,7 +2,7 @@
 pytest>=5.0.1
 ddt
 cython
-pip>=20.2.0
+pip>=20.2.2
 
 # python related
 attrs

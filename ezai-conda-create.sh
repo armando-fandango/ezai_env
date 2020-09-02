@@ -80,10 +80,10 @@ install_txt () {
 opts=" --strict-channel-priority"
 
 conda clean -i
-echo "setting base conda to 4.6.14"
+echo "setting base conda to 4.6.14 and pip to 20.2.2"
 conda activate base
 conda config --set auto_update_conda False
-conda install -y -S conda=4.6.14
+conda install -y -S "conda=4.6.14" "pip=20.2.2"
 conda deactivate
 
 conda activate $venv || install_python
