@@ -14,12 +14,12 @@ function ProceedOrExit {
 Write-Host "setting base conda to 4.6.14"
 conda activate base
 conda config --set auto_update_conda False
-conda install -y -S conda=4.6.14
+conda install -y -S "conda=4.6.14" "pip=20.2.2"
 conda deactivate
 
 Write-Host "creating $venv with python $py_ver ..."
 echo "conda create -y -p $venv -c conda-forge python=$py_ver"
-conda create -y -p $venv -c conda-forge python=$py_ver
+conda create -y -p $venv -c conda-forge python=$py_ver "conda=4.6.14" "pip=20.2.2"
 
 conda activate $venv
 conda config --env --append channels conda-forge
