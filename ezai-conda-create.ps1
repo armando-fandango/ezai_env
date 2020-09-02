@@ -1,7 +1,8 @@
 #!/usr/bin/env pwsh
 
+conda_base=$(conda info --base)
 #TODO: probably change this default to ~/envs once docker is implemented
-param ($venv='c:/Miniconda3/envs/ezai', $py_ver='3.7.8', $piptxt='./ezai-pip-req.txt', $condatxt='./ezai-conda-req.txt')
+param ($venv=$conda_base+'/envs/ezai', $py_ver='3.7.8', $piptxt='./ezai-pip-req.txt', $condatxt='./ezai-conda-req.txt')
 
 # add -k if ssl_verify needs to be set to false
 $opts="--strict-channel-priority"
