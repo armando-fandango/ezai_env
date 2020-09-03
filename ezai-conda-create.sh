@@ -50,7 +50,7 @@ install_python () {
 
 install_jupyter () {
   echo "Installing jupyter ..."
-  conda install -y -S -c conda-forge "ipython>=7.0.0" "notebook>=6.0.0" jupyter_contrib_nbextensions jupyter_nbextensions_configurator yapf ipywidgets && \
+  conda install -y -S -c conda-forge "ipython>=7.0.0" "notebook>=6.0.0" jupyter_contrib_nbextensions jupyter_nbextensions_configurator yapf ipywidgets ipykernel && \
   jupyter nbextension enable --user code_prettify/code_prettify  && \
   jupyter nbextension enable --user toc2/main && \
   jupyter nbextension enable --user varInspector/main && \
