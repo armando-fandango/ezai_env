@@ -22,10 +22,10 @@ if [[ "${envdirs_clean}" != "clean" ]]; then
 fi
 
 echo "Adding ${PERSISTED_ENVS_DIR} to list of conda env locations"
-cat << EOF2 >> /home/ec2-user/.condarc
+cat << EOG >> /home/ec2-user/.condarc
 envs_dirs:
   - ${PERSISTED_ENVS_DIR}
   - /home/ec2-user/anaconda3/envs
-EOF2
+EOG
 
 EOF
