@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+kernel_name='ezai'
+kernel_disp_name='ezai'
+venv='ezai'
+
+install_jupyter () {
+  echo "Installing jupyter ..."
+  conda install -y -S -c conda-forge "ipython>=7.0.0" "notebook>=6.0.0" jupyter_contrib_nbextensions jupyter_nbextensions_configurator yapf ipywidgets && \
+  return $?
+}
+
+set_jupyter_extensions () {
+  echo "Setting jupyter extensions ..."
+  conda install -y -S -c conda-forge jupyter_contrib_nbextensions jupyter_nbextensions_configurator yapf ipywidgets && \
+  jupyter nbextension enable --user code_prettify/code_prettify  && \
+  jupyter nbextension enable --user toc2/main && \
+  jupyter nbextension enable --user varInspector/main && \
+  jupyter nbextension enable --user execute_time/ExecuteTime && \
+  jupyter nbextension enable --user spellchecker/main && \
+  jupyter nbextension enable --user scratchpad/main && \
+  jupyter nbextension enable --user collapsible_headings/main && \
+  jupyter nbextension enable --user codefolding/main && \
+  return $?
+}
+
+# sets currently activated environment as jupyter kernel
+set_jupyter_kernel () {
+  python -m ipykernel install --user --name $kernel_name --display-name $kernel_disp_name
+  return $?
+}
+
+
