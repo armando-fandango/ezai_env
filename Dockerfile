@@ -78,8 +78,8 @@ RUN apt-get -qq update && \
 WORKDIR /root/
 
 #Install MINICONDA
-COPY conda-install-miniconda.sh /root/
-RUN ./conda-install-miniconda.sh --conda_dir $CONDA_DIR && rm conda-install-miniconda.sh
+COPY install-miniconda.sh /root/
+RUN ./install-miniconda.sh --conda_dir $CONDA_DIR && rm install-miniconda.sh
 
 ENV PATH=${CONDA_DIR}/bin:$PATH
 

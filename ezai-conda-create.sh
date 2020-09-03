@@ -29,14 +29,22 @@ while [ $# -gt 0 ]; do
   shift
 done
 
+activate () {
+  conda activate $1 || source activate $1
+}
+
+deactivate () {
+  conda deactivate || source deactivate
+}
+
 install_python () {
   echo "$venv doesnt exist - creating now with python $py_ver ..."
-  conda create -y  -p $venv -c conda-forge python=$py_ver "conda=4.6.14" "pip=20.2.2" && \
-  conda activate $venv && \
+  conda create -y -p $venv -c conda-forge python=$py_ver "conda=4.6.14" "pip=20.2.2" && \
+  activate $venv && \
   conda config --env --append channels conda-forge && \
+  conda config --env --set auto_update_conda False && \
   #conda config --env --set channel_priority strict && \
-  conda config --env --remove channels defaults && \
-  conda config --set auto_activate_base false
+  conda config --env --remove channels defaults
   return $?
 }
 
@@ -82,30 +90,28 @@ opts=" --strict-channel-priority"
 
 conda clean -i
 echo "setting base conda to 4.6.14 and pip to 20.2.2"
-conda activate base
-conda config --set auto_update_conda False
-conda install -y -S "conda=4.6.14" "pip=20.2.2"
-conda deactivate
+activate base
+conda config --env --set auto_update_conda False
+conda config --show-sources
+conda install -y -S "conda=4.6.14" "pip=20.2.2" "python=3.7"
+deactivate
 
-conda activate $venv || install_python
-conda deactivate
+activate $venv || install_python
+deactivate
 
 #channels+=" -c pytorch "
 #channels+=" -c fastai "
-conda activate $venv && ( install_jupyter && install_cuda && install_fastai_pytorch && install_txt )
+activate $venv && ( install_jupyter && install_cuda && install_fastai_pytorch && install_txt )
 
-if ! [[ $? ]]
-then
-  echo " "
-  echo " "
-  echo " For Linux 64, Open MPI is built with CUDA awareness but this support is disabled by default."
-  echo "To enable it, please set the environmental variable OMPI_MCA_opal_cuda_support=true before"
-  echo "launching your MPI processes. Equivalently, you can set the MCA parameter in the command line:"
-  echo "mpiexec --mca opal_cuda_support 1 ..."
+echo " "
+echo " "
+echo " For Linux 64, Open MPI is built with CUDA awareness but this support is disabled by default."
+echo "To enable it, please set the environmental variable OMPI_MCA_opal_cuda_support=true before"
+echo "launching your MPI processes. Equivalently, you can set the MCA parameter in the command line:"
+echo "mpiexec --mca opal_cuda_support 1 ..."
 
-  echo " "
-  echo " "
-  echo "Activate your environment with  conda activate $venv  and then test with pytest -p no:warnings -vv"
-fi
+echo " "
+echo " "
+echo "Activate your environment with  conda activate $venv  and then test with pytest -p no:warnings -vv"
 
-conda deactivate
+deactivate

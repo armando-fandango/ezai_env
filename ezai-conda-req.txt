@@ -81,7 +81,7 @@ absl-py
 wrapt
 astunparse
 termcolor
-opt_einsum
+opt-einsum
 gast
 # required by tf ends
 

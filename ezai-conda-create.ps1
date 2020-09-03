@@ -25,17 +25,16 @@ conda activate $venv
 conda config --env --append channels conda-forge
 conda config --env --set channel_priority strict
 conda config --env --remove channels defaults
-conda config --set auto_activate_base false
 
 conda install -y -S -p $venv -c conda-forge "ipython>7.0" "notebook>=6.0.0" jupyter_contrib_nbextensions jupyter_nbextensions_configurator yapf ipywidgets
-jupyter nbextension enable code_prettify/code_prettify
-jupyter nbextension enable toc2/main
-jupyter nbextension enable varInspector/main
-jupyter nbextension enable execute_time/ExecuteTime
-jupyter nbextension enable spellchecker/main
-jupyter nbextension enable scratchpad/main
-jupyter nbextension enable collapsible_headings/main
-jupyter nbextension enable codefolding/main
+jupyter nbextension enable --user code_prettify/code_prettify
+jupyter nbextension enable --user toc2/main
+jupyter nbextension enable --user varInspector/main
+jupyter nbextension enable --user execute_time/ExecuteTime
+jupyter nbextension enable --user spellchecker/main
+jupyter nbextension enable --user scratchpad/main
+jupyter nbextension enable --user collapsible_headings/main
+jupyter nbextension enable --user codefolding/main
 
 conda install -y -S -p $venv -c conda-forge -c defaults "cudatoolkit=10.1" "cudnn=7.6.5"
 #conda install -y -S -p $venv -c conda-forge nccl mpi4py gxx_linux-64 gcc_linux-64
