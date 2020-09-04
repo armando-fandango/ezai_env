@@ -41,7 +41,16 @@ deactivate () {
 set_sagemaker_lifecycle () {
 
   # prepare instance for lifecycle configuration
-  INSTANCE_NAME='ai-playground'
+  INSTANCE_NAME=${INSTANCE_NAME:-'ai-playground'}
+  while [ $# -gt 0 ]; do
+    case $1 in
+      -i|--instance-name)
+        param="${1/--/}"
+        declare $param="$2"
+        ;;
+    esac
+    shift
+  done
 
   CONFIGURATION_NAME=$(aws sagemaker describe-notebook-instance --notebook-instance-name "${INSTANCE_NAME}" | jq -e '.NotebookInstanceLifecycleConfigName | select (.!=null)' | tr -d '"')
   echo "Configuration \"$CONFIGURATION_NAME\" attached to notebook instance $INSTANCE_NAME"
@@ -82,13 +91,21 @@ set_sagemaker_lifecycle () {
   aws sagemaker update-notebook-instance-lifecycle-config \
       --notebook-instance-lifecycle-config-name "$CONFIGURATION_NAME" \
       --on-start Content="$((cat on-start.sh)| base64)"
-
 }
 
 empty_sagemaker_lifecycle () {
 
   # prepare instance for lifecycle configuration
-  INSTANCE_NAME='ai-playground'
+  INSTANCE_NAME=${INSTANCE_NAME:-'ai-playground'}
+  while [ $# -gt 0 ]; do
+    case $1 in
+      -i|--instance-name)
+        param="${1/--/}"
+        declare $param="$2"
+        ;;
+    esac
+    shift
+  done
 
   CONFIGURATION_NAME=$(aws sagemaker describe-notebook-instance --notebook-instance-name "${INSTANCE_NAME}" | jq -e '.NotebookInstanceLifecycleConfigName | select (.!=null)' | tr -d '"')
   echo "Configuration \"$CONFIGURATION_NAME\" attached to notebook instance $INSTANCE_NAME"
