@@ -33,6 +33,22 @@ Note: This version maps `$home` directory and /mnt directory on host to docker c
 - I generally create an alias in bash to run the notebooks from the container quickly:
 `alias eznb='conda activate ezai && jupyter notebook --ip=* --no-browser'`
 
+### to add this conda environment to AWS SageMaker instance:
+
+#### On your laptop
+- Configure awscli if not already done: `aws configure`
+- Clone the repo : `https://github.com/armando-fandango/ezai_env.git`
+- Go to the `ezai_env` folder where you cloned the repo
+- Set the SageMaker env: `source ezai-conda && set_sagemaker_env -i <instance_name>`
+
+#### Prepare the SageMaker instance
+- Launch the instance and open a terminal
+- In the terminal: `cd /home/ec2-user/SageMaker/ezai_env`
+- Create conda environment: `ezai-conda-create.sh --venv /home/ec2-user/SageMaker/envs/ezai`
+
+#### Test it
+- Open the `test.ipynb` file
+
 ## TODO:
 
 - Give option to create fully isolated container
@@ -40,10 +56,3 @@ Note: This version maps `$home` directory and /mnt directory on host to docker c
 - add/enable more libraries
 - make separate dockerfile for Sumo and create only if asked from the run
 
-### to add this conda environment to sagemaker:
-
-- `aws configure`
-- `source ezai-conda`
-- `set_sagemaker_lifecycle -i instance_name`
-- login to sagemaker, go to terminal, and execute:
-  `ezai-conda-create.sh --venv /home/ec2-user/SageMaker/envs/ezai`

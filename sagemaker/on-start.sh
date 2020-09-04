@@ -9,9 +9,20 @@ sudo  -u ec2-user -i <<'EOF'
 PERSISTED_ENVS_DIR="${PERSISTED_ENVS_DIR:-/home/ec2-user/SageMaker/envs}"
 
 echo 'Installing jupyter extensions'
-source /home/ec2-user/SageMaker/ezai_env/ezai-conda
+
 source /home/ec2-user/anaconda3/bin/activate JupyterSystemEnv
-set_jupyter_extensions
+
+echo "Setting jupyter extensions ..."
+conda install -y -S -c conda-forge jupyter_contrib_nbextensions jupyter_nbextensions_configurator yapf ipywidgets
+jupyter nbextension enable --user code_prettify/code_prettify
+jupyter nbextension enable --user toc2/main
+jupyter nbextension enable --user varInspector/main
+jupyter nbextension enable --user execute_time/ExecuteTime
+jupyter nbextension enable --user spellchecker/main
+jupyter nbextension enable --user scratchpad/main
+jupyter nbextension enable --user collapsible_headings/main
+jupyter nbextension enable --user codefolding/main
+
 source /home/ec2-user/anaconda3/bin/deactivate
 
 echo "Setting up persisted conda environments..."
