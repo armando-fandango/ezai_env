@@ -130,3 +130,4 @@ dmypy.json
 /.idea/
 /temp
 /wip/
+/on-start.sh

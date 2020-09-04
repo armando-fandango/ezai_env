@@ -6,10 +6,10 @@ then
   export SHELLOPTS # should be after or before set ?
   set -o igncr # execute it manually for now it doesnt work
   source /cygdrive/c/Miniconda3/etc/profile.d/conda.sh
-  venv=${venv:-$(conda info --base)/envs/ezai}
+  venv=${venv:-$(conda info --base)/envs/ezai-conda}
 else
   source $(conda info --base)/etc/profile.d/conda.sh
-  venv=${venv:-$(conda info --base)/envs/ezai}
+  venv=${venv:-$(conda info --base)/envs/ezai-conda}
 fi
 
 # add -k if ssl_verify needs to be set to false
@@ -102,6 +102,9 @@ deactivate
 #channels+=" -c pytorch "
 #channels+=" -c fastai "
 activate $venv && ( install_jupyter && install_cuda && install_fastai_pytorch && install_txt )
+
+# Expose environment as kernel
+#python -m ipykernel install --user --name ezai-conda --display-name "ezai-conda"
 
 echo " "
 echo " "

@@ -9,7 +9,7 @@ sudo  -u ec2-user -i <<'EOF'
 PERSISTED_ENVS_DIR="${PERSISTED_ENVS_DIR:-/home/ec2-user/SageMaker/envs}"
 
 echo 'Installing jupyter extensions'
-source /home/ec2-user/SageMaker/ezai_docker/ezai
+source /home/ec2-user/SageMaker/ezai_docker/ezai-conda
 source /home/ec2-user/anaconda3/bin/activate JupyterSystemEnv
 set_jupyter_extensions
 source /home/ec2-user/anaconda3/bin/deactivate

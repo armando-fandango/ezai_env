@@ -97,8 +97,8 @@ RUN ./ezai-conda-create.sh --venv /opt/conda/envs/ezai && \
 #    rm conda-ez-update*
 
     #&& \
-    #echo "alias eznb='conda activate ezai && jupyter notebook --ip=* --no-browser'" >> ${AI_HOME}/.bashrc &&\
-    #echo "conda activate ezai" >> ${AI_HOME}/.bashrc
+    #echo "alias eznb='conda activate ezai-conda && jupyter notebook --ip=* --no-browser'" >> ${AI_HOME}/.bashrc &&\
+    #echo "conda activate ezai-conda" >> ${AI_HOME}/.bashrc
                     #--allow-root
 # Make RUN commands use the new environment:
 SHELL ["conda", "run", "-n", "ezai", "/bin/bash", "-c"]

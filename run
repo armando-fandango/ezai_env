@@ -5,7 +5,7 @@
 # Add this line to your ~/.bashrc
 alias eznb='conda activate ezai && xvfb-run -a -s "-screen 0 128x128x24" -- jupyter notebook --ip=* --no-browser'
 # test cvfb : xvfb-run -s "-screen 0 1024x768x24" glxgears
-#echo "alias eznb='conda activate ezai && jupyter notebook --ip=* --no-browser'" >> ${AI_HOME}/.bashrc &&\
+#echo "alias eznb='conda activate ezai-conda && jupyter notebook --ip=* --no-browser'" >> ${AI_HOME}/.bashrc &&\
 
 source .env
 

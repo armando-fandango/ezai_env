@@ -115,7 +115,7 @@ empty_sagemaker_lifecycle () {
 
   echo "creating empty  on-start.sh..."
   echo '' > on-start.sh
-  #echo '# configure sagemaker as per ezai" >> on-start.sh
+  #echo '# configure sagemaker as per ezai-conda" >> on-start.sh
   #echo "export PIP_PACKAGE_NAME=\"${PIP_PACKAGE_NAME}\"" >> on-start.sh
   #echo "export EXTENSION_NAME=\"${EXTENSION_NAME}\"" >> on-start.sh
   #echo 'cat /home/ec2-user/SageMaker/ezai_docker/sagemaker/on-start.sh | bash' >> on-start.sh
