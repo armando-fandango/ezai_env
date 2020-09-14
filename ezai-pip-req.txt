@@ -12,6 +12,7 @@
 
 scikit-posthocs
 pmdarima
+torchsummary
 
 # needed for tensorflow
 tensorflow-estimator

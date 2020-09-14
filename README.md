@@ -39,7 +39,8 @@ Note: This version maps `$home` directory and /mnt directory on host to docker c
 - Configure awscli if not already done: `aws configure`
 - Clone the repo : `https://github.com/armando-fandango/ezai_env.git`
 - Go to the `ezai_env` folder where you cloned the repo
-- Set the SageMaker env: `source ezai-conda && set_sagemaker_env -i <instance_name>`
+- source the file `source ezai-conda` 
+- Set the SageMaker env: `set_sagemaker_env -i <instance_name>`
 
 #### Prepare the SageMaker instance
 - Launch the instance and open a terminal
