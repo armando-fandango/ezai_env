@@ -68,30 +68,44 @@ set_sagemaker_env () {
 
     # add repo to instance
 #    update_params=' --additional-code-repositories "https://github.com/armando-fandango/ezai_env.git" '
+    ATTACHED_EZAI_ENV=$(aws sagemaker describe-notebook-instance --notebook-instance-name "${INSTANCE_NAME}" | jq -e '.AdditionalCodeRepositories | map(select (.=="ezai-env"))[0]' | tr -d '"')
     #TODO if attached dont do it
-    echo "Attaching repo ezai_env ..."
+    if [[ -z "$ATTACHED_EZAI_ENV" ]]; then
+      # there is no attached repo, attach it
+      echo "Attaching repo ezai-env ..."
 
-    #TODO if repo exists dont do it
-    aws sagemaker create-code-repository \
-        --code-repository-name "ezai-env" \
-        --git-config '{"Branch":"main", "RepositoryUrl" :
-          "https://github.com/armando-fandango/ezai_env.git" }'
+      REPO_EZAI_ENV=$(aws sagemaker list-code-repositories --name-contains 'ezai-env' | jq -e '.CodeRepositorySummaryList[] | .CodeRepositoryName' | tr -d '"')
+      if [[ -z "$REPO_EZAI_ENV" ]]; then
+        echo "ezai-env code repo not present in sagemaker, creating repo ezai-env ..."
+        aws sagemaker create-code-repository \
+          --code-repository-name "ezai-env" \
+          --git-config '{"Branch":"main", "RepositoryUrl" :
+            "https://github.com/armando-fandango/ezai_env.git" }'
+      else
+        echo "ezai-env code repo present in sagemaker"
+      fi
 
-    aws sagemaker update-notebook-instance \
+      aws sagemaker update-notebook-instance \
         --notebook-instance-name "$INSTANCE_NAME" \
         --additional-code-repositories "ezai-env"
 
-    aws sagemaker wait notebook-instance-stopped \
-      --notebook-instance-name "$INSTANCE_NAME"
+      aws sagemaker wait notebook-instance-stopped \
+        --notebook-instance-name "$INSTANCE_NAME"
+    fi
 
     if [[ -z "$CONFIGURATION_NAME" ]]; then
         # there is no attached configuration name, create a new one
         CONFIGURATION_NAME="ezai-sagemaker"
-        echo "Creating new configuration $CONFIGURATION_NAME..."
-        aws sagemaker create-notebook-instance-lifecycle-config \
+        CONFIG_EZAI_PRESENT = $(aws sagemaker list-notebook-instance-lifecycle-configs --name-contains $CONFIGURATION_NAME | jq -e '.NotebookInstanceLifecycleConfigs[] | .NotebookInstanceLifecycleConfigName' | tr -d '"' )
+        if [[ -z "$CONFIG_EZAI_PRESENT" ]]; then
+          echo "Creating new configuration $CONFIGURATION_NAME..."
+          aws sagemaker create-notebook-instance-lifecycle-config \
             --notebook-instance-lifecycle-config-name "$CONFIGURATION_NAME" \
             --on-start Content=$(echo '#!/usr/bin/env bash'| base64) \
             --on-create Content=$(echo '#!/usr/bin/env bash' | base64)
+        else
+          echo "Found existing configuration $CONFIGURATION_NAME"
+        fi
         aws sagemaker update-notebook-instance \
             --notebook-instance-name "$INSTANCE_NAME" \
             --lifecycle-config-name "$CONFIGURATION_NAME"
