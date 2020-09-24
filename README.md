@@ -35,9 +35,11 @@ Note: This version maps `$home` directory and /mnt directory on host to docker c
 
 ### to add this conda environment to AWS SageMaker instance:
 
+The SageMaker instance should be already created and stopped before following these steps.
+
 #### On your laptop
 - Configure awscli if not already done: `aws configure`
-- Clone the repo : `https://github.com/armando-fandango/ezai_env.git`
+- Clone the repo : `git clone https://github.com/armando-fandango/ezai_env.git`
 - Go to the `ezai_env` folder where you cloned the repo
 - source the file `source ezai-conda` 
 - Set the SageMaker env: `set_sagemaker_env -i <instance_name>`
@@ -45,7 +47,9 @@ Note: This version maps `$home` directory and /mnt directory on host to docker c
 #### Prepare the SageMaker instance
 - Launch the instance and open a terminal
 - In the terminal: `cd /home/ec2-user/SageMaker/ezai_env`
-- Create conda environment: `ezai-conda-create.sh --venv /home/ec2-user/SageMaker/envs/ezai`
+- Create conda environment: `./ezai-conda-create.sh --venv /home/ec2-user/SageMaker/envs/ezai`
+- activate the environment with `conda activate /home/ec2-user/SageMaker/envs/ezai`
+- test the tensorflow and pytorch GPU with `pytest -p no:warnings -vv`
 
 #### Test it
 - Open the `test.ipynb` file

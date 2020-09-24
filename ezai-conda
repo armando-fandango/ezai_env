@@ -69,7 +69,6 @@ set_sagemaker_env () {
     # add repo to instance
 #    update_params=' --additional-code-repositories "https://github.com/armando-fandango/ezai_env.git" '
     ATTACHED_EZAI_ENV=$(aws sagemaker describe-notebook-instance --notebook-instance-name "${INSTANCE_NAME}" | jq -e '.AdditionalCodeRepositories | map(select (.=="ezai-env"))[0]' | tr -d '"')
-    #TODO if attached dont do it
     if [[ -z "$ATTACHED_EZAI_ENV" ]]; then
       # there is no attached repo, attach it
       echo "Attaching repo ezai-env ..."
