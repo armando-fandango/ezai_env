@@ -32,13 +32,13 @@ envdirs_clean=$(grep "envs_dirs:" /home/ec2-user/.condarc || echo "clean")
 if [[ "${envdirs_clean}" != "clean" ]]; then
     echo 'envs_dirs config already exists in /home/ec2-user/.condarc. Add ${PERSISTED_ENVS_DIR} manually. '
     exit 0
-else
-  echo "Adding ${PERSISTED_ENVS_DIR} to list of conda env locations"
-  cat << EOG >> /home/ec2-user/.condarc
-  envs_dirs:
-    - ${PERSISTED_ENVS_DIR}
-    - /home/ec2-user/anaconda3/envs
-  EOG
 fi
+
+echo "Adding ${PERSISTED_ENVS_DIR} to list of conda env locations"
+cat << EOG >> /home/ec2-user/.condarc
+envs_dirs:
+  - ${PERSISTED_ENVS_DIR}
+  - /home/ec2-user/anaconda3/envs
+EOG
 
 EOF
