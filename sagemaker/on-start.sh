@@ -28,17 +28,8 @@ source /home/ec2-user/anaconda3/bin/deactivate
 echo "Setting up persisted conda environments..."
 mkdir -p ${PERSISTED_ENVS_DIR} && chown ec2-user:ec2-user ${PERSISTED_ENVS_DIR}
 
-envdirs_clean=$(grep "envs_dirs:" /home/ec2-user/.condarc || echo "clean")
-if [[ "${envdirs_clean}" != "clean" ]]; then
-    echo 'envs_dirs config already exists in /home/ec2-user/.condarc. Add ${PERSISTED_ENVS_DIR} manually. '
-    exit 0
-fi
-
 echo "Adding ${PERSISTED_ENVS_DIR} to list of conda env locations"
-cat << EOG >> /home/ec2-user/.condarc
-envs_dirs:
-  - ${PERSISTED_ENVS_DIR}
-  - /home/ec2-user/anaconda3/envs
-EOG
+conda config --prepend envs_dirs /home/ec2-user/anaconda3/envs
+conda config --prepend envs_dirs ${PERSISTED_ENVS_DIR}
 
 EOF
