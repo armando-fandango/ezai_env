@@ -6,10 +6,10 @@ then
   export SHELLOPTS # should be after or before set ?
   set -o igncr # execute it manually for now it doesnt work
   source /cygdrive/c/Miniconda3/etc/profile.d/conda.sh
-  venv=${venv:-$(conda info --base)/envs/ezai-conda}
+  venv=${venv:-$(conda info --base)/envs/ezai}
 else
   source $(conda info --base)/etc/profile.d/conda.sh
-  venv=${venv:-$(conda info --base)/envs/ezai-conda}
+  venv=${venv:-$(conda info --base)/envs/ezai}
 fi
 
 # add -k if ssl_verify needs to be set to false
@@ -93,7 +93,7 @@ echo "setting base conda to 4.6.14 and pip to 20.2.2"
 activate base
 conda config --env --set auto_update_conda False
 conda config --show-sources
-conda install -y -S "conda=4.6.14" "pip=20.2.2" "python=3.7"
+conda install -y -S "conda=4.6.14" "pip=20.2.2"
 deactivate
 
 activate $venv || install_python
