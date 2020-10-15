@@ -1,11 +1,11 @@
 #!/usr/bin/env pwsh
+param ($venv='c:/Miniconda3/envs/ezai', $py_ver='3.7.8', $piptxt='./ezai-pip-req.txt', $condatxt='./ezai-conda-req.txt')
 
-conda_base=$(conda info --base)
-#TODO: probably change this default to ~/envs once docker is implemented
-param ($venv=$conda_base+'/envs/ezai', $py_ver='3.7.8', $piptxt='./ezai-pip-req.txt', $condatxt='./ezai-conda-req.txt')
+#TODO: probably change venv default to ~/envs once docker is implemented
+# conda_base=$(conda info --base)
+# add conda_base to venv
 
 # add -k if ssl_verify needs to be set to false
-$opts="--strict-channel-priority"
 
 function ProceedOrExit {
     if ($?) { echo "Proceed.." } else { echo "Script FAILED! Exiting.."; exit 1 }
@@ -14,7 +14,7 @@ function ProceedOrExit {
 Write-Host "setting base conda to 4.6.14"
 conda activate base
 conda config --set auto_update_conda False
-conda install -y -S "conda=4.6.14" "pip=20.2.2"
+conda install -y -S "conda=4.6.14" "pip=20.2.2" "python=3.7.8"
 conda deactivate
 
 Write-Host "creating $venv with python $py_ver ..."
@@ -23,7 +23,6 @@ conda create -y -p $venv -c conda-forge python=$py_ver "conda=4.6.14" "pip=20.2.
 
 conda activate $venv
 conda config --env --append channels conda-forge
-conda config --env --set channel_priority strict
 conda config --env --remove channels defaults
 
 conda install -y -S -p $venv -c conda-forge "ipython>7.0" "notebook>=6.0.0" jupyter_contrib_nbextensions jupyter_nbextensions_configurator yapf ipywidgets
