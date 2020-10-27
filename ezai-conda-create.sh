@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# We imort conda command as sometimes it doesnt work otherwise
+# imort conda command as sometimes it doesnt work otherwise
 if [[ "${OSTYPE}" == 'cygwin' ]]
 then
   export SHELLOPTS # should be after or before set ?
@@ -39,8 +39,8 @@ deactivate () {
 
 install_python () {
   echo "$venv doesnt exist - creating now with python $py_ver ..."
-  conda create -y -p $venv -c conda-forge python=$py_ver "conda=4.6.14" "pip=20.2.2" && \
-  activate $venv && \
+  conda create -y -p "${venv}" -c conda-forge "python=${py_ver}" "conda=4.6.14" "pip=20.2.2" && \
+  activate "${venv}" && \
   conda config --env --append channels conda-forge && \
   conda config --env --set auto_update_conda False && \
   #conda config --env --set channel_priority strict && \
@@ -86,22 +86,22 @@ install_txt () {
   return $?
 }
 
-opts=" --strict-channel-priority"
+opts=""
 
 conda clean -i
 echo "setting base conda to 4.6.14 and pip to 20.2.2"
 activate base
 conda config --env --set auto_update_conda False
 conda config --show-sources
-conda install -y -S "conda=4.6.14" "pip=20.2.2"
+conda install -y -S "conda=4.6.14" "pip=20.2.2" "python=3.7" || (echo "Unable to update base conda" && exit 1)
 deactivate
 
-activate $venv || install_python
+activate "${venv}" || install_python || (echo "Unable to create ${venv}" && exit 1)
 deactivate
 
 #channels+=" -c pytorch "
 #channels+=" -c fastai "
-activate $venv && ( install_jupyter && install_cuda && install_fastai_pytorch && install_txt )
+activate "${venv}" && ( install_jupyter && install_cuda && install_fastai_pytorch && install_txt )
 
 # Expose environment as kernel
 #python -m ipykernel install --user --name ezai-conda --display-name "ezai-conda"
