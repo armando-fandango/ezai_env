@@ -129,10 +129,10 @@ set_sagemaker_env () {
 
     echo "Adding extensions install to on-start.sh..."
     echo '' >> on-start.sh
-    echo '# update ezai_env' >> on-start.sh
-    echo 'cd /home/ec2-user/SageMaker/ezai_env' >> on-start.sh
-    echo 'git stash' >> on-start.sh
-    echo 'git pull --rebase' >> on-start.sh
+    #echo '# update ezai_env' >> on-start.sh
+    #echo 'cd /home/ec2-user/SageMaker/ezai_env' >> on-start.sh
+    #echo 'git stash' >> on-start.sh
+    #echo 'git pull --rebase' >> on-start.sh
     echo '# configure sagemaker as per ezai' >> on-start.sh
     #echo "export PIP_PACKAGE_NAME=\"${PIP_PACKAGE_NAME}\"" >> on-start.sh
     #echo "export EXTENSION_NAME=\"${EXTENSION_NAME}\"" >> on-start.sh
