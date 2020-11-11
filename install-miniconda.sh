@@ -20,4 +20,4 @@ wget -nv https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -
   #source $(conda info --base)/etc/profile.d/conda.sh && \
   conda init && \
   chmod -R 777 ${conda_dir} && \
-  chown -R `id -u`:`id -g` $HOME/.conda
+  chown -R `id -u`:`id -g` ${HOME}/.conda
