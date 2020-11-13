@@ -46,16 +46,18 @@ run () {
     if [ "$(docker ps -q -f name=$cname -f status=exited)" ];
     then
       echo "starting container $cname"
-      docker start $cname
+      docker start "$cname"
     fi
-    if [ "$(docker ps -q -f name=$cname -f status=running)" ];
+    if [ "$(docker ps -q -f name="$cname" -f status=running)" ];
     then
       echo "entering started container $cname"
+      # shellcheck disable=SC2154
       docker exec -it $user $wfolder $evars $cname bash
     else
       echo "creating, starting and then entering container $cname"
+      # shellcheck disable=SC2154
       docker run -it --gpus all --name $cname \
-        $user $wfolder $evars $vfolders $cports $iname bash
+        "$user" "$wfolder" "$evars" $vfolders $cports $iname bash
     fi
   else
      echo "not created image $iname"
