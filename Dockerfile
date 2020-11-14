@@ -42,7 +42,7 @@ RUN apt-get -qq update && \
 	  xvfb \
 	  patchelf \
 	  ffmpeg && \
-	  apt-get clean && rm -rf /var/lib/apt/lists/*
+	  apt-get autoremove --purge && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 	#swig \
     # sumo pre-req
@@ -80,7 +80,6 @@ WORKDIR /root/
 #Install MINICONDA
 COPY install-miniconda.sh /root/
 RUN ./install-miniconda.sh --conda_dir $CONDA_DIR && rm install-miniconda.sh
-
 ENV PATH=${CONDA_DIR}/bin:$PATH
 
 # create ez conda env
@@ -88,12 +87,11 @@ ENV PATH=${CONDA_DIR}/bin:$PATH
 #COPY conda-update-base.sh /root/
 #RUN ./conda-update-base.sh && rm conda-update-base.sh
 # keeping it separate to take advantage of image cache
-COPY ezai-conda-* ezai-pip-* /root/
+COPY ezai-conda* ezai-pip-* /root/
 RUN ./ezai-conda-create.sh --venv $CONDA_DIR/envs/ezai && \
-    rm ezai-conda-* ezai-pip-*
-
-RUN mkdir -p /opt/ezai
-COPY ezai-conda /opt/ezai/
+    mkdir -p /opt/ezai && \
+    mv ezai-conda /opt/ezai/ && \
+    rm ezai-conda* ezai-pip-*
 
 #COPY conda-ez-update* /root/
 #RUN ./conda-ez-update.sh && \
@@ -107,12 +105,9 @@ COPY ezai-conda /opt/ezai/
 SHELL ["conda", "run", "-n", "ezai", "/bin/bash", "-c"]
 # SHELL ["/bin/bash", "-c"] this doesnt work
 
-# TODO: uncomment in final version
-# RUN conda clean -ypt
-
 # install sumo
-RUN apt-add-repository ppa:sumo/stable
-RUN apt-get -qq install -y sumo sumo-tools sumo-doc
+# RUN apt-add-repository ppa:sumo/stable
+# RUN apt-get -qq install -y sumo sumo-tools sumo-doc
 
 #install unity
 #RUN wget -nv https://beta.unity3d.com/download/9e6726e6ce12/UnitySetup-2020.1.0b12 -O UnitySetup && \

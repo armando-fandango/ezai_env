@@ -12,6 +12,7 @@ else
   venv=${venv:-$(conda info --base)/envs/ezai}
 fi
 
+source ezai-conda
 # add -k if ssl_verify needs to be set to false
 #pkgs="jupyter notebook jupyter_contrib_nbextensions jupyter_nbextensions_configurator"
 
@@ -29,14 +30,6 @@ while [ $# -gt 0 ]; do
   shift
 done
 
-activate () {
-  conda activate $1 || source activate $1
-}
-
-deactivate () {
-  conda deactivate || source deactivate
-}
-
 install_python () {
   echo "$venv doesnt exist - creating now with python $py_ver ..."
   conda create -y -p "${venv}" -c conda-forge "python=${py_ver}" "conda=4.6.14" "pip=20.2.2" && \
@@ -48,19 +41,19 @@ install_python () {
   return $?
 }
 
-install_jupyter () {
-  echo "Installing jupyter ..."
-  conda install -y -S -c conda-forge "ipython>=7.0.0" "notebook>=6.0.0" jupyter_contrib_nbextensions jupyter_nbextensions_configurator yapf ipywidgets ipykernel && \
-  jupyter nbextension enable --user code_prettify/code_prettify  && \
-  jupyter nbextension enable --user toc2/main && \
-  jupyter nbextension enable --user varInspector/main && \
-  jupyter nbextension enable --user execute_time/ExecuteTime && \
-  jupyter nbextension enable --user spellchecker/main && \
-  jupyter nbextension enable --user scratchpad/main && \
-  jupyter nbextension enable --user collapsible_headings/main && \
-  jupyter nbextension enable --user codefolding/main && \
-  return $?
-}
+#install_jupyter () {
+#  echo "Installing jupyter ..."
+#  conda install -y -S -c conda-forge "ipython>=7.0.0" "notebook>=6.0.0" jupyter_contrib_nbextensions jupyter_nbextensions_configurator yapf ipywidgets ipykernel && \
+#  jupyter nbextension enable --user code_prettify/code_prettify  && \
+#  jupyter nbextension enable --user toc2/main && \
+#  jupyter nbextension enable --user varInspector/main && \
+#  jupyter nbextension enable --user execute_time/ExecuteTime && \
+#  jupyter nbextension enable --user spellchecker/main && \
+#  jupyter nbextension enable --user scratchpad/main && \
+#  jupyter nbextension enable --user collapsible_headings/main && \
+#  jupyter nbextension enable --user codefolding/main && \
+#  return $?
+#}
 
 install_cuda () {
   echo "Installing cuda ..."
@@ -99,12 +92,18 @@ deactivate
 activate "${venv}" || install_python || (echo "Unable to create ${venv}" && exit 1)
 deactivate
 
-#channels+=" -c pytorch "
-#channels+=" -c fastai "
-activate "${venv}" && ( install_jupyter && install_cuda && install_fastai_pytorch && install_txt )
+activate "${venv}" && ( install_jupyter && install_jupyter_extensions && install_cuda && install_fastai_pytorch && install_txt )
+deactivate
 
 # Expose environment as kernel
 #python -m ipykernel install --user --name ezai-conda --display-name "ezai-conda"
+
+# TODO: uncomment in final version
+activate "${venv}" &&  conda clean -ypt
+deactivate
+
+activate base && conda clean -ypt
+deactivate
 
 echo " "
 echo " "
@@ -116,5 +115,3 @@ echo "mpiexec --mca opal_cuda_support 1 ..."
 echo " "
 echo " "
 echo "Activate your environment with  conda activate $venv  and then test with pytest -p no:warnings -vv"
-
-deactivate
