@@ -1,8 +1,8 @@
 # ezai_env
 ## Description
-Docker container and conda python virtual environment creation for doing AI
+Docker container and conda virtual environment creation for doing AI on local machines, Kubernetes or SageMaker.
 
-## Pre-requisites
+## Pre-requisites for building
 - Linux: Python is Installed
 - Windows: Python is installed, preferably miniconda.
 
@@ -13,12 +13,11 @@ Docker container and conda python virtual environment creation for doing AI
 Note: This version maps `$home` directory and `/mnt` directory on the host to docker container, so be careful with modifying anything in these folders inside the container, it will also be modified on the host
 
 Do the following first:
+- Download the two files: 
+`curl -O "https://raw.githubusercontent.com/armando-fandango/ezai_env/main/{.env,ezai-docker}"`
 - modify `.env` file as needed, specially the `itag`
 - execute `source ezai-docker`
 - now use any of the following commands
-
-#### To build EZAI image
-- `ezai_build_image`
 
 #### To run EZAI container
 - `ezai_runc`
@@ -37,6 +36,8 @@ Do the following first:
 #### To remove EZAI image
 - `ezai_rmi`
 
+#### To build EZAI image
+- `ezai_build_image`
 
 ### EZAI conda environment on your local machine (no docker):
 
