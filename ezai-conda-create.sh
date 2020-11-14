@@ -82,14 +82,14 @@ install_txt () {
 opts=""
 
 conda clean -i
-echo "setting base conda to 4.6.14 and pip to 20.2.2"
+echo "setting base conda to 4.6.14, python to 3.7.3"
 activate base
 conda config --env --set auto_update_conda False
 conda config --show-sources
-conda install -y -S "conda=4.6.14" "pip=20.2.2" "python=3.7.3" || (echo "Unable to update base conda" && exit 1)
+conda install -y --no-update-deps "conda=4.6.14" "python=3.7.3" || (echo "Unable to update base conda"; exit 1)
 deactivate
 
-activate "${venv}" || install_python || (echo "Unable to create ${venv}" && exit 1)
+activate "${venv}" || install_python || (echo "Unable to create ${venv}" ; exit 1)
 deactivate
 
 activate "${venv}" && ( install_jupyter && install_jupyter_extensions && install_cuda && install_fastai_pytorch && install_txt )
