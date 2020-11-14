@@ -7,11 +7,11 @@ source .env
   dfile="Dockerfile"
   dfolder="."
 
-  if [ "$(docker image inspect $iname:$itag > /dev/null 2>&1 && echo 1 || echo '')" ];
+  if [ "$(docker image inspect $iname > /dev/null 2>&1 && echo 1 || echo '')" ];
   then
-    echo "found image $iname:$itag.. rebuilding"
+    echo "found image $iname.. rebuilding"
   else
-    echo "creating image $iname:$itag"
+    echo "creating image $iname"
   fi
 
   if [ $compute = "gpu" ];
@@ -27,20 +27,20 @@ source .env
 #  barg+=" --build-arg AI_UID=${AI_UID} "
 #  barg+=" --build-arg AI_GID=${AI_GID} "
 #  barg+=" --build-arg AI_UNAME=${AI_UNAME} "
-  docker build $bopt -t $iname:$itag $barg -f $dfile $dfolder
+  docker build $bopt -t $iname $barg -f $dfile $dfolder
 
   # HAVE TO CHECK FOR IMAGE AGAIN BECAUSE BULD FAILS SOMETIME
-  if [ "$(docker image inspect $iname:$itag > /dev/null 2>&1 && echo 1 || echo '')" ];
+  if [ "$(docker image inspect $iname > /dev/null 2>&1 && echo 1 || echo '')" ];
   then
-     echo "created image $iname:$itag"
+     echo "created image $iname"
   else
-     echo "not created image $iname:$itag"
+     echo "not created image $iname"
   fi
 }
 
 ezai_pull_image() {
-    echo "pulling image $iname:$itag"
-    docker pull ghcr.io/armando-fndango/$iname:$itag
+    echo "pulling image $iname"
+    docker pull $iname
 }
 
 ezai_runc () {
@@ -62,15 +62,15 @@ ezai_runc () {
   user="-u ${AI_UID}:${AI_GID}"
   xhost +  # for running GUI app in container
 
-  if [ "$(docker image inspect $iname:$itag > /dev/null 2>&1 && echo 1 || echo '')" ];
+  if [ "$(docker image inspect $iname > /dev/null 2>&1 && echo 1 || echo '')" ];
   then
-    echo "found image $iname:$itag"
+    echo "found image $iname"
   else
     ezai_pull_image
   fi
 
   # HAVE TO CHECK FOR IMAGE AGAIN BECAUSE BULD FAILS SOMETIME
-  if [ "$(docker image inspect $iname:$itag > /dev/null 2>&1 && echo 1 || echo '')" ];
+  if [ "$(docker image inspect $iname > /dev/null 2>&1 && echo 1 || echo '')" ];
   then
     if [ "$(docker ps -q -f name=$cname -f status=exited)" ];
     then
@@ -86,10 +86,10 @@ ezai_runc () {
       echo "creating, starting and then entering container $cname"
       # shellcheck disable=SC2154
       docker run -it --gpus all --name $cname \
-        $user $wfolder $evars $vfolders $cports $iname:$itag bash
+        $user $wfolder $evars $vfolders $cports $iname bash
     fi
   else
-     echo "not pulled image $iname:$itag"
+     echo "not pulled image $iname"
   fi
 
 }
@@ -99,7 +99,7 @@ ezai_rmi () {
 
   source .env
 
-  docker rmi $iname:$itag --no-prune
+  docker rmi $iname --no-prune
 }
 
 ezai_rmc () {
