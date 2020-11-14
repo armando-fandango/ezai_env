@@ -29,7 +29,7 @@ source .env
 #  barg+=" --build-arg AI_UNAME=${AI_UNAME} "
   docker build $bopt -t $iname $barg -f $dfile $dfolder
 
-  # HAVE TO CHECK FOR IMAGE AGAIN BECAUSE BULD FAILS SOMETIME
+  # HAVE TO CHECK FOR IMAGE AGAIN BECAUSE BUILD FAILS SOMETIME
   if [ "$(docker image inspect $iname > /dev/null 2>&1 && echo 1 || echo '')" ];
   then
      echo "created image $iname"

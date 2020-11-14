@@ -7,15 +7,14 @@ MAINTAINER armando@neurasights.com
 #ARG COMPONENTS=Unity,Windows,Windows-Mono,Mac,Mac-Mono,WebGL
 #ARG COMPONENTS=Unity,Mac,WebGL
 ARG COMPUTE=gpu
-ARG CONDA_DIR=/opt/conda
 
 ENV COMPUTE=$COMPUTE \
-    CONDA_DIR=$CONDA_DIR
+    CONDA_DIR="/opt/conda"
 
 USER root
 RUN apt-get -qq update && \
     apt-get -qq upgrade -y && \
-    apt-get -qq install -y \
+    apt-get -qq install -y --no-install-recommends\
     # TODO: sort these package names by alpha - docker BP
       # needed to install custom / launchpad repos
       software-properties-common \
@@ -101,8 +100,8 @@ RUN ./ezai-conda-create.sh --venv $CONDA_DIR/envs/ezai && \
     #echo "alias eznb='conda activate ezai-conda && jupyter notebook --ip=* --no-browser'" >> ${AI_HOME}/.bashrc &&\
     #echo "conda activate ezai-conda" >> ${AI_HOME}/.bashrc
                     #--allow-root
-# Make RUN commands use the new environment:
-SHELL ["conda", "run", "-n", "ezai", "/bin/bash", "-c"]
+# TODO: Make RUN commands use the new environment:
+# SHELL ["conda", "run", "-n", "ezai", "/bin/bash", "-c"]
 # SHELL ["/bin/bash", "-c"] this doesnt work
 
 # install sumo

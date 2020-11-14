@@ -75,7 +75,7 @@ install_txt () {
   conda config --show-sources
   conda install -y -S --file $condatxt && \
   # install pip with no-deps so it doesnt mess up conda installed versions
-  pip install --no-deps --use-feature 2020-resolver -r $piptxt
+  pip install --no-deps --no-cache-dir --use-feature 2020-resolver -r $piptxt
   return $?
 }
 
@@ -86,7 +86,7 @@ echo "setting base conda to 4.6.14 and pip to 20.2.2"
 activate base
 conda config --env --set auto_update_conda False
 conda config --show-sources
-conda install -y -S "conda=4.6.14" "pip=20.2.2" "python=3.7" || (echo "Unable to update base conda" && exit 1)
+conda install -y -S "conda=4.6.14" "pip=20.2.2" "python=3.7.3" || (echo "Unable to update base conda" && exit 1)
 deactivate
 
 activate "${venv}" || install_python || (echo "Unable to create ${venv}" && exit 1)
