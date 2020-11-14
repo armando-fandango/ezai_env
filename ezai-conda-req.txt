@@ -67,7 +67,7 @@ kaggle
 python-snappy
 pyarrow>=1.0  #  dont use fastparquet
 dask>=2.23
-h5py>=2.10
+#h5py>=2.10
 
 # **** required by pips
 # required by smac

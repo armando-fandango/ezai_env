@@ -19,7 +19,7 @@ source ezai-conda
 piptxt=${piptxt:-"./ezai-pip-req.txt"}
 condatxt=${condatxt:-"./ezai-conda-req.txt"}
 
-py_ver=${py_ver:-3.7.8}
+py_ver=${py_ver:-3.7.3}
 
 while [ $# -gt 0 ]; do
    if [[ $1 == *"--"* ]]; then
@@ -30,10 +30,17 @@ while [ $# -gt 0 ]; do
   shift
 done
 
-install_python () {
+create_venv () {
   echo "$venv doesnt exist - creating now with python $py_ver ..."
-  conda create -y -p "${venv}" -c conda-forge "python=${py_ver}" "conda=4.6.14" "pip=20.2.2" && \
-  activate "${venv}" && \
+  conda create -y -p "${venv}" -c conda-forge "python=${py_ver}" "conda=4.6.14" "pip=20.2.2"
+}
+
+install_venv () {
+  echo "installing python $py_ver in $venv..."
+  conda install -y -S -c conda-forge "python=${py_ver}" "conda=4.6.14" "pip=20.2.2"
+}
+
+config_env () {
   conda config --env --append channels conda-forge && \
   conda config --env --set auto_update_conda False && \
   #conda config --env --set channel_priority strict && \
@@ -58,7 +65,7 @@ install_python () {
 install_cuda () {
   echo "Installing cuda ..."
   conda install -y -S -c conda-forge -c defaults "cudatoolkit=10.1" "cudnn>=7.6.5" && \
-  conda install -y -S "nccl" "mpi4py>=3.0.0" gxx_linux-64 gcc_linux-64
+  conda install -y -S "nccl" #"mpi4py>=3.0.0" gxx_linux-64 gcc_linux-64
   return $?
 }
 
@@ -82,14 +89,23 @@ install_txt () {
 opts=""
 
 conda clean -i
-echo "setting base conda to 4.6.14, python to 3.7.3"
-activate base
-conda config --env --set auto_update_conda False
-conda config --show-sources
-conda install -y --no-update-deps "conda=4.6.14" "python=3.7.3" || (echo "Unable to update base conda"; exit 1)
-deactivate
 
-activate "${venv}" || install_python || (echo "Unable to create ${venv}" ; exit 1)
+if [ $venv != "base" ];
+then
+  echo "setting base conda to 4.6.14, python to 3.7.3"
+  activate base
+  conda config --env --set auto_update_conda False
+  conda config --show-sources
+  conda install -y --no-update-deps "conda=4.6.14" "python=3.7.3" || (echo "Unable to update base conda"; exit 1)
+  deactivate
+
+  activate "${venv}" || create_venv || (echo "Unable to create ${venv}" ; exit 1)
+else
+  activate "${venv}" && install_venv
+  deactivate
+fi
+
+activate "${venv}" && config_env
 deactivate
 
 activate "${venv}" && ( install_jupyter && install_jupyter_extensions && install_cuda && install_fastai_pytorch && install_txt )

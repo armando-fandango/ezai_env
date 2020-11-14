@@ -87,7 +87,7 @@ ENV PATH=${CONDA_DIR}/bin:$PATH
 #RUN ./conda-update-base.sh && rm conda-update-base.sh
 # keeping it separate to take advantage of image cache
 COPY ezai-conda* ezai-pip-* /root/
-RUN ./ezai-conda-create.sh --venv $CONDA_DIR/envs/ezai && \
+RUN ./ezai-conda-create.sh --venv "base" && \
     mkdir -p /opt/ezai && \
     mv ezai-conda /opt/ezai/ && \
     rm ezai-conda* ezai-pip-*

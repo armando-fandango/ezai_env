@@ -14,7 +14,7 @@ source .env
     echo "creating image $iname"
   fi
 
-  if [ $compute = "gpu" ];
+  if [ $compute == "gpu" ];
   then
     base="nvidia/cuda:10.1-cudnn7-runtime-ubuntu18.04"
   else
