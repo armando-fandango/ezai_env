@@ -8,7 +8,37 @@ Docker container and conda python virtual environment creation for doing AI
 
 ## Usage
 
-### To create conda environment:
+### EZAI in docker environment with conda:
+
+Note: This version maps `$home` directory and `/mnt` directory on the host to docker container, so be careful with modifying anything in these folders inside the container, it will also be modified on the host
+
+Do the following first:
+- modify `.env` file as needed, specially the `itag`
+- execute `source ezai-docker`
+- now use any of the following commands
+
+#### To build EZAI image
+- `ezai_build_image`
+
+#### To run EZAI container
+- `ezai_runc`
+    - pulls the image if not present
+    - starts the container if not started
+    - enters the container
+- I generally create an alias in bash to run the notebooks from the container quickly:
+`alias eznb='conda activate ezai && jupyter notebook --ip=* --no-browser'`
+
+#### To pull EZAI image:
+- `ezai_pull_image`
+
+#### To remove EZAI container
+- `ezai_rmc`
+
+#### To remove EZAI image
+- `ezai_rmi`
+
+
+### EZAI conda environment on your local machine (no docker):
 
 - modify `ezai-conda-req.txt` as needed
 - modify `ezai-pip-req.txt` as needed
@@ -20,25 +50,12 @@ Docker container and conda python virtual environment creation for doing AI
 - activate the environment with `conda activate <location-of-env>`
 - test the tensorflow and pytroch GPU with `pytest -p no:warnings -vv`
 
-### to create a docker environment with conda:
-
-Note: This version maps `$home` directory and /mnt directory on host to docker container so be careful with modifying anything inside the container, it will also be modified on the host
-
-- modify `.env` file as needed
-- execute `source ezai-docker`
-- execute `run`
-    - creates the image if not present
-    - starts the container if not started
-    - enters the container
-- I generally create an alias in bash to run the notebooks from the container quickly:
-`alias eznb='conda activate ezai && jupyter notebook --ip=* --no-browser'`
-
-### to add this conda environment to AWS SageMaker instance:
+### EZAI conda environment in AWS SageMaker instance:
 
 The SageMaker instance should be already created and stopped before following these steps.
 
 #### On your laptop
-- Configure awscli if not already done: `aws configure`
+- Configure `awscli` if not already done: `aws configure`
 - Clone the repo : `git clone https://github.com/armando-fandango/ezai_env.git`
 - Go to the `ezai_env` folder where you cloned the repo
 - source the file `source ezai-conda` 

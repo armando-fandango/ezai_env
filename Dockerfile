@@ -92,6 +92,9 @@ COPY ezai-conda-* ezai-pip-* /root/
 RUN ./ezai-conda-create.sh --venv $CONDA_DIR/envs/ezai && \
     rm ezai-conda-* ezai-pip-*
 
+RUN mkdir -p /opt/ezai
+COPY ezai-conda /opt/ezai/
+
 #COPY conda-ez-update* /root/
 #RUN ./conda-ez-update.sh && \
 #    rm conda-ez-update*
