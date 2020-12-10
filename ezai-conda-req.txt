@@ -9,6 +9,7 @@ attrs
 cattrs
 bidict
 tqdm
+pyyaml
 
 # basic data science
 hypothesis>=3.58 # needed by pandas but doesnt install on win64
@@ -30,6 +31,8 @@ bokeh>=2.0.0
 #plotnine
 #ggplot>=0.11.0
 graphviz
+python-graphviz
+
 
 terminaltables
 tabulate
@@ -55,6 +58,7 @@ ffmpeg>=4.3
 opencv>=4.4
 
 # ml/dl/rl related
+onnx
 statsmodels>=0.11.0
 scikit-learn>=0.23.0
 scikit-optimize
