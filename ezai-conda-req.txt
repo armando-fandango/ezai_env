@@ -10,6 +10,7 @@ cattrs
 bidict
 tqdm
 pyyaml
+twine  # for pypi
 
 # basic data science
 hypothesis>=3.58 # needed by pandas but doesnt install on win64

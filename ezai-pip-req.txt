@@ -37,3 +37,5 @@ mlagents==0.19.0
 mlagents_envs==0.19.0
 gym_unity==0.19.0
 # unity end
+
+ezai_util

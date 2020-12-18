@@ -15,6 +15,7 @@ done
 
 #wget -nv https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O Miniconda.sh && \
 wget -nv https://repo.anaconda.com/miniconda/Miniconda3-4.6.14-Linux-x86_64.sh -O Miniconda.sh && \
+#curl -o Miniconda.sh -O https://repo.anaconda.com/miniconda/Miniconda3-4.6.14-Linux-x86_64.sh && \
 	/bin/bash Miniconda.sh -f -b -p ${conda_dir} && \
 	rm Miniconda.sh && \
   PATH=${conda_dir}/bin:$PATH && \

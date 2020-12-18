@@ -21,11 +21,13 @@ RUN apt-get -qq update && \
       sudo \
       ca-certificates \
       run-one \
+      # avoid curl - use wget
 	  wget \
 	  bzip2 \
-	  iputils-ping \
+	  # only uncomment for diagnostics
+	  #iputils-ping \
+	  #htop \
 	  nano \
-	  htop \
 	  # for webdriver - folium
 	  firefox-geckodriver \
 	  # for matplotlib
