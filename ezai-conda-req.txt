@@ -51,6 +51,9 @@ selenium # for folium
 nltk>=3.4.0
 gensim>=3.8.0
 spacy>=2.3.0
+transformers==4.1.1
+sentencepiece
+
 # textblob
 wordcloud>=1.8.0
 
