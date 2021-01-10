@@ -20,6 +20,6 @@ wget -nv https://repo.anaconda.com/miniconda/Miniconda3-4.6.14-Linux-x86_64.sh -
 	rm Miniconda.sh && \
   PATH=${conda_dir}/bin:$PATH && \
   #source $(conda info --base)/etc/profile.d/conda.sh && \
-  conda init && \
+  conda init $(basename $SHELL) && \
   chmod -R 777 ${conda_dir}
 #  chown -R `id -u`:`id -g` ${HOME}/.conda

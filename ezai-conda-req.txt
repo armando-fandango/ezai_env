@@ -78,10 +78,6 @@ dask>=2.23
 #h5py>=2.10
 
 # **** required by pips
-# required by smac
-# swig
-# emcee
-# required by smac end
 
 # required by tf
 protobuf
@@ -101,7 +97,10 @@ google-auth-oauthlib
 # required by tensorboard
 
 # required by gym
-imageio
-glfw
-box2d-py
+# imageio
+# glfw
+# box2d-py
+# pillow<=7.2.0
 # required by gym end
+gym-all=0.18.0
+#gym-atari

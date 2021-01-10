@@ -77,6 +77,7 @@ RUN apt-get -qq update && \
 #1 USER $AI_UID
 
 WORKDIR /root/
+SHELL ["/bin/bash", "-c"]
 
 #Install MINICONDA
 COPY install-miniconda.sh /root/
@@ -89,7 +90,8 @@ ENV PATH=${CONDA_DIR}/bin:$PATH
 #RUN ./conda-update-base.sh && rm conda-update-base.sh
 # keeping it separate to take advantage of image cache
 COPY ezai-conda* ezai-pip-* /root/
-RUN ./ezai-conda-create.sh --venv "base" && \
+RUN source ezai-conda.sh && \
+    ezai_conda_create --venv "base" && \
     mkdir -p /opt/ezai && \
     mv ezai-conda /opt/ezai/ && \
     rm ezai-conda* ezai-pip-*
