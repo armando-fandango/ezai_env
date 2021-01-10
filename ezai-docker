@@ -2,7 +2,7 @@
 
 ezai_build_image() {
 
-source .env
+  source .env
 
   dfile="Dockerfile"
   dfolder="."

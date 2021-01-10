@@ -14,7 +14,6 @@ fi
 
 source ezai-conda
 # add -k if ssl_verify needs to be set to false
-#pkgs="jupyter notebook jupyter_contrib_nbextensions jupyter_nbextensions_configurator"
 
 piptxt=${piptxt:-"./ezai-pip-req.txt"}
 condatxt=${condatxt:-"./ezai-conda-req.txt"}
@@ -74,7 +73,8 @@ install_fastai_pytorch () {
   conda config --env --prepend channels pytorch
   conda config --env --prepend channels fastai
   conda config --show-sources
-  conda install -y -S "fastai=2.0.0" "pytorch=1.6.0" "torchvision=0.7.0" "numpy<1.19.0"
+  # numpy spec due to tensorflow and pillow spec due to gym
+  conda install -y -S "fastai=2.0.0" "pytorch=1.6.0" "torchvision=0.7.0" "numpy<1.19.0" "pillow<=7.2.0"
   return $?
 }
 
@@ -82,7 +82,7 @@ install_txt () {
   conda config --show-sources
   conda install -y -S --file $condatxt && \
   # install pip with no-deps so it doesnt mess up conda installed versions
-  pip install --no-deps --no-cache-dir --use-feature 2020-resolver -r $piptxt
+  pip install --no-deps --no-cache-dir -r "$piptxt"
   return $?
 }
 
@@ -90,7 +90,7 @@ opts=""
 
 conda clean -i
 
-if [ $venv != "base" ];
+if [ "$venv" != "base" ];
 then
   echo "setting base conda to 4.6.14, python to 3.7.3"
   activate base

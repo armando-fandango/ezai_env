@@ -1,15 +1,6 @@
 # these software can't be found on conda channels hence installed through pip
 # keep most imortant at the end
 
-# needed for smac
-# lazy_import
-# pynisher
-# ConfigSpace
-# pyrfr
-# pydoe
-# needed for smac end
-# smac[all] #https://automl.github.io/SMAC3/master/
-
 scikit-posthocs
 torchsummary
 
@@ -30,7 +21,7 @@ atari-py
 gym
 
 cutecharts
-neo4j
+#neo4j
 
 # unity begin  release_6 c# v1.3.0
 mlagents==0.19.0
