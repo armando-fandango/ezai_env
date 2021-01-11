@@ -1,4 +1,7 @@
 # ezai_env
+
+## Windows version not tested starting version 1.4.4
+
 ## Description
 Docker container and conda virtual environment creation for doing AI on local machines, Kubernetes or SageMaker.
 
@@ -36,17 +39,17 @@ Do the following first:
 #### To remove EZAI image
 - `ezai_rmi`
 
-#### To build EZAI image
+#### To build EZAI image - clone the entire repo first
 - `ezai_build_image`
 
 ### EZAI conda environment on your local machine (no docker):
 
 - modify `ezai-conda-req.txt` as needed
 - modify `ezai-pip-req.txt` as needed
-- for linux: execute `ezai-conda-create.sh --venv <location-of-env>  --python-ver <python-version>`
-    - for windows: execute `ezai-conda-create.ps1 -venv <location-of-env>  -python-ver <python-version>`
+- for linux: execute `source ezai-conda.sh`,`ezai_conda_create --venv <location-of-env>  --py-ver <python-version>`
+- for windows: execute `ezai-conda-create.ps1 -venv <location-of-env>  -python-ver <python-version>`
     - `<location-of-env>`: Default is `/opt/conda/envs/ezai` on linux and `C:/Miniconda3/envs/ezai` on windows
-    - `<python-version>`: Defalult is `3.7`
+    - `<python-version>`: Defalult is `3.7.3`
     - You can supply your own `requirements.txt` files with `--piptxt` and `--condatxt`.
 - activate the environment with `conda activate <location-of-env>`
 - test the tensorflow and pytroch GPU with `pytest -p no:warnings -vv`
@@ -65,7 +68,7 @@ The SageMaker instance should be already created and stopped before following th
 #### Prepare the SageMaker instance
 - Launch the instance and open a terminal
 - In the terminal: `cd /home/ec2-user/SageMaker/ezai_env`
-- Create conda environment: `./ezai-conda-create.sh --venv /home/ec2-user/SageMaker/envs/ezai`
+- Create conda environment: `source ezai-conda.sh`,`ezai_conda_create --venv /home/ec2-user/SageMaker/envs/ezai`
 - activate the environment with `conda activate /home/ec2-user/SageMaker/envs/ezai`
 - test the tensorflow and pytorch GPU with `pytest -p no:warnings -vv`
 
