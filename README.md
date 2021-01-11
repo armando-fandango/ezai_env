@@ -19,7 +19,7 @@ Do the following first:
 - Download the two files: 
 `curl -O "https://raw.githubusercontent.com/armando-fandango/ezai_env/main/{.env,ezai-docker}"`
 - modify `.env` file as needed, specially the `itag`
-- execute `source ezai-docker`
+- execute `source ezai-docker.sh`
 - now use any of the following commands
 
 #### To run EZAI container
