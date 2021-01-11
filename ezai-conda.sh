@@ -12,7 +12,7 @@ deactivate () {
 
 install_jupyter () {
   echo "Installing jupyter ..."
-  conda install -y -S -c conda-forge "ipython>=7.0.0" "notebook>=6.0.0" jupyter_contrib_nbextensions jupyter_nbextensions_configurator yapf ipywidgets ipykernel && \
+  conda install -y -S -c conda-forge "ipython>=7.0.0" "notebook>=6.0.0" jupyter_contrib_nbextensions jupyter_nbextensions_configurator yapf ipywidgets ipykernel
   return $?
 }
 
@@ -26,7 +26,7 @@ install_jupyter_extensions () {
   jupyter nbextension enable --sys-prefix spellchecker/main && \
   jupyter nbextension enable --sys-prefix scratchpad/main && \
   jupyter nbextension enable --sys-prefix collapsible_headings/main && \
-  jupyter nbextension enable --sys-prefix codefolding/main && \
+  jupyter nbextension enable --sys-prefix codefolding/main
   return $?
 }
 
