@@ -102,22 +102,20 @@ ezai_conda_create () {
   venv=${venv:-$(conda info --base)/envs/ezai}
   piptxt=${piptxt:-"./ezai-pip-req.txt"}
   condatxt=${condatxt:-"./ezai-conda-req.txt"}
-  # add -k if ssl_verify needs to be set to false
-  #source $(conda info --base)/etc/profile.d/conda.sh
-
   py_ver=${py_ver:-3.7.3}
-
+  # add -k if ssl_verify needs to be set to false
+  
   while [ $# -gt 0 ]; do
      if [[ $1 == *"--"* ]]; then
           param="${1/--/}"
           declare $param="$2"
-          echo $1 $2 #// Optional to see the parameter:value result
+          #echo $1 $2 #// Optional to see the parameter:value result
      fi
     shift
   done
 
   conda clean -i
-  echo $venv
+  source $(conda info --base)/etc/profile.d/conda.sh
 
   if [ "${venv}" != "base" ];
   then
