@@ -16,7 +16,7 @@ ezai_build_image() {
 
   if [ $compute == "gpu" ];
   then
-    base="nvidia/cuda:10.1-cudnn7-runtime-ubuntu18.04"
+    base="nvidia/cuda:10.2-cudnn7-runtime-ubuntu18.04"
   else
     base="ubuntu:18.04"
   fi
@@ -44,7 +44,16 @@ ezai_pull_image() {
 }
 
 ezai_runc () {
-    # TODO: instead of root, run as user
+  cname=${cname:-''}
+  iname=${iname:-''}
+  while [ $# -gt 0 ]; do
+     if [[ $1 == *"--"* ]]; then
+          param="${1/--/}"
+          declare $param="$2"
+          #echo $1 $2 #// Optional to see the parameter:value result
+     fi
+    shift
+  done
   # docker run -it --gpus all --name phd-gpu-1 -v ${HOME}/datasets:/root/datasets -v /home/armando/phd:/root/phd
 
   # Add this line to your ~/.bashrc
@@ -69,7 +78,7 @@ ezai_runc () {
     ezai_pull_image
   fi
 
-  # HAVE TO CHECK FOR IMAGE AGAIN BECAUSE BULD FAILS SOMETIME
+  # HAVE TO CHECK FOR IMAGE AGAIN BECAUSE BULD/PULL FAILS SOMETIME
   if [ "$(docker image inspect $iname > /dev/null 2>&1 && echo 1 || echo '')" ];
   then
     if [ "$(docker ps -q -f name=$cname -f status=exited)" ];
@@ -89,7 +98,7 @@ ezai_runc () {
         $user $wfolder $evars $vfolders $cports $iname bash
     fi
   else
-     echo "not pulled image $iname"
+     echo "image $iname not found"
   fi
 
 }

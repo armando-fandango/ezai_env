@@ -1,7 +1,7 @@
 # build with docker build -t ezml-gpu -f dockerfile-gpu  .
 # run with
-ARG BASE=nvidia/cuda:10.1-cudnn7-runtime-ubuntu18.04
-FROM $BASE
+ARG BASE
+FROM $BASE as base-image
 MAINTAINER armando@neurasights.com
 
 #ARG COMPONENTS=Unity,Windows,Windows-Mono,Mac,Mac-Mono,WebGL
@@ -10,6 +10,8 @@ ARG COMPUTE=gpu
 
 ENV COMPUTE=$COMPUTE \
     CONDA_DIR="/opt/conda"
+
+USER root
 
 USER root
 RUN apt-get -qq update && \
@@ -39,7 +41,7 @@ RUN apt-get -qq update && \
 	  libgl1-mesa-dev \
 	  libegl1-mesa-dev \
 	  libosmesa6-dev \
-	  libglvnd-dev \
+	  #libglvnd-dev \
 	  xvfb \
 	  patchelf \
 	  ffmpeg && \
@@ -81,19 +83,15 @@ SHELL ["/bin/bash", "-c"]
 
 #Install MINICONDA
 COPY install-miniconda.sh /root/
-RUN ./install-miniconda.sh --conda_dir $CONDA_DIR && rm install-miniconda.sh
+RUN ./install-miniconda.sh --conda_dir ${CONDA_DIR} && rm install-miniconda.sh
 ENV PATH=${CONDA_DIR}/bin:$PATH
 
 # create ez conda env
 
-#COPY conda-update-base.sh /root/
-#RUN ./conda-update-base.sh && rm conda-update-base.sh
-# keeping it separate to take advantage of image cache
 COPY ezai-conda* ezai-pip-* /root/
 RUN source ezai-conda.sh && \
     ezai_conda_create --venv "base" && \
-    mkdir -p /opt/ezai && \
-    mv ezai-conda.sh /opt/ezai/ && \
+    chmod -R 777 ${CONDA_DIR} && \
     rm ezai-conda* ezai-pip-*
 
 #COPY conda-ez-update* /root/

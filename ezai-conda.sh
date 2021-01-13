@@ -149,6 +149,9 @@ ezai_conda_create () {
   fi
   activate base && conda clean -ypt
   deactivate
+  find $(conda info --base) -follow -type f -name '*.a' -delete
+  find $(conda info --base) -follow -type f -name '*.pyc' -delete
+
   # TODO: Uncomment above in final version
   echo " "
   echo " "

@@ -21,18 +21,18 @@ matplotlib>=3.3.0
 ipympl
 
 #graph related
-networkx>=2.4
-neo4j-python-driver>=4.1.0
+# networkx>=2.4
+# neo4j-python-driver>=4.1.0
 
 # visualization related
-pytest-mpl
-seaborn>=0.10.0
-bokeh>=2.0.0
+# pytest-mpl
+# seaborn>=0.10.0
+# bokeh>=2.0.0
 #plotly
 #plotnine
 #ggplot>=0.11.0
-graphviz
-python-graphviz
+# graphviz
+# python-graphviz
 
 
 terminaltables
@@ -44,18 +44,18 @@ tabulate
 #basemap-data-hires
 #geopandas
 #descartes # for geopandas
-folium
-selenium # for folium
+# folium
+# selenium # for folium
 
 # text related
-nltk>=3.4.0
-gensim>=3.8.0
-spacy>=2.3.0
-transformers==4.1.1
-sentencepiece
+# nltk>=3.4.0
+# gensim>=3.8.0
+# spacy>=2.3.0
+# transformers==4.1.1
+# sentencepiece
 
 # textblob
-wordcloud>=1.8.0
+# wordcloud>=1.8.0
 
 # image / vision related
 ffmpeg>=4.3
@@ -68,14 +68,14 @@ scikit-learn>=0.23.0
 scikit-optimize
 
 # clouds / datasets
-awscli
-boto3
-kaggle
+# awscli
+# boto3
+# kaggle
 
 python-snappy
 pyarrow>=1.0  #  dont use fastparquet
 dask>=2.23
-#h5py>=2.10
+h5py>=2.10
 
 # **** required by pips
 
@@ -97,10 +97,11 @@ google-auth-oauthlib
 # required by tensorboard
 
 # required by gym
-# imageio
-# glfw
-# box2d-py
-# pillow<=7.2.0
+imageio
+glfw
+box2d-py
+pillow<=7.2.0
+pyglet
 # required by gym end
-gym-all=0.18.0
+# gym-all=0.18.0
 #gym-atari
