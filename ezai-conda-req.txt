@@ -18,7 +18,6 @@ numpy<1.19.0  # remove once tensorflow
 scipy>=1.5.0
 pandas>=1.1.0
 matplotlib>=3.3.0
-ipympl
 
 #graph related
 # networkx>=2.4
@@ -33,7 +32,6 @@ ipympl
 #ggplot>=0.11.0
 # graphviz
 # python-graphviz
-
 
 terminaltables
 tabulate
@@ -60,6 +58,8 @@ tabulate
 # image / vision related
 ffmpeg>=4.3
 opencv>=4.4
+imageio>=2.9
+pillow<=7.2.0
 
 # ml/dl/rl related
 onnx
@@ -97,11 +97,8 @@ google-auth-oauthlib
 # required by tensorboard
 
 # required by gym
-imageio
 glfw
 box2d-py
-pillow<=7.2.0
-pyglet
+pyglet<=1.5.0
 # required by gym end
-# gym-all=0.18.0
-#gym-atari
+#gym=0.18.0

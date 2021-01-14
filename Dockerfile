@@ -6,10 +6,8 @@ MAINTAINER armando@neurasights.com
 
 #ARG COMPONENTS=Unity,Windows,Windows-Mono,Mac,Mac-Mono,WebGL
 #ARG COMPONENTS=Unity,Mac,WebGL
-ARG COMPUTE=gpu
 
-ENV COMPUTE=$COMPUTE \
-    CONDA_DIR="/opt/conda"
+ENV CONDA_DIR="/opt/conda"
 
 USER root
 
@@ -26,6 +24,7 @@ RUN apt-get -qq update && \
       # avoid curl - use wget
 	  wget \
 	  bzip2 \
+	  unzip \
 	  # only uncomment for diagnostics
 	  #iputils-ping \
 	  #htop \
@@ -41,9 +40,11 @@ RUN apt-get -qq update && \
 	  libgl1-mesa-dev \
 	  libegl1-mesa-dev \
 	  libosmesa6-dev \
-	  #libglvnd-dev \
+	  libglvnd-dev \
 	  xvfb \
 	  patchelf \
+	  cmake \
+	  swig \
 	  ffmpeg && \
 	  apt-get autoremove --purge && apt-get clean && rm -rf /var/lib/apt/lists/*
 

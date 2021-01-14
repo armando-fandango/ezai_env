@@ -12,7 +12,7 @@ deactivate () {
 
 install_jupyter () {
   echo "Installing jupyter ..."
-  conda install -y -S -c conda-forge "ipython>=7.0.0" "notebook>=6.0.0" jupyter_contrib_nbextensions jupyter_nbextensions_configurator yapf ipywidgets ipykernel
+  conda install -y -S -c conda-forge "ipython>=7.0.0" "notebook>=6.0.0" jupyter_contrib_nbextensions jupyter_nbextensions_configurator yapf ipywidgets ipykernel ipympl
   return $?
 }
 
@@ -144,10 +144,10 @@ ezai_conda_create () {
   # TODO: Uncomment below in final version
   if [ "${venv}" != "base" ];
   then
-    activate "${venv}" &&  conda clean -ypt
+    activate "${venv}" &&  conda clean -yt
     deactivate
   fi
-  activate base && conda clean -ypt
+  activate base && conda clean -yt
   deactivate
   find $(conda info --base) -follow -type f -name '*.a' -delete
   find $(conda info --base) -follow -type f -name '*.pyc' -delete
