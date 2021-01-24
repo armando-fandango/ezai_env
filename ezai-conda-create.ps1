@@ -15,7 +15,7 @@ Write-Host "setting base conda to 4.6.14"
 conda activate base
 conda config --env --set auto_update_conda False
 conda config --show-sources
-conda install -y -S --no-update-deps "conda=4.6.14" "python=3.7.8"
+conda install -y --no-update-deps "conda=4.6.14" "python=3.7.8"
 conda deactivate
 
 Write-Host "creating $venv with python $py_ver ..."
