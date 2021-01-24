@@ -41,7 +41,7 @@ install_jupyter_kernel () {
 
 create_venv () {
   echo "$venv doesnt exist - creating now with python $py_ver ..."
-  conda create -y -p "${venv}" -c conda-forge "python=${py_ver}" "conda=4.6.14" "pip=20.2.2"
+  conda create -y -p $venv -c conda-forge "python=$py_ver" "conda=4.6.14" "pip=20.2.2"
   return $?
 }
 
@@ -123,7 +123,7 @@ ezai_conda_create () {
     activate base
     conda config --env --set auto_update_conda False
     conda config --show-sources
-    conda install -y --no-update-deps "conda=4.6.14" "python=3.7.3" || (echo "Unable to update base conda"; exit 1)
+    conda install -y -S --no-update-deps "conda=4.6.14" "python=3.7.3" || (echo "Unable to update base conda"; exit 1)
     deactivate
 
     activate "${venv}" || create_venv || (echo "Unable to create ${venv}" ; exit 1)

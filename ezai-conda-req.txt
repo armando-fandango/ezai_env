@@ -87,6 +87,7 @@ astunparse
 termcolor
 opt-einsum
 gast
+flatbuffers
 # required by tf ends
 
 # required by tensorboard

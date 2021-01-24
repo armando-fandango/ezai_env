@@ -60,15 +60,15 @@ fi
 # HAVE TO CHECK FOR IMAGE AGAIN BECAUSE BULD/PULL FAILS SOMETIME
 if [ "$(docker image inspect $iname > /dev/null 2>&1 && echo 1 || echo '')" ];
 then
-  if [ "$(docker ps -q -f name={$cname} -f status=exited)" ];
+  if [ "$(docker container inspect $cname > /dev/null 2>&1 && echo 1 || echo '')" ];
   then
-    echo "starting container $cname"
-    docker start "$cname"
-  fi
-  if [ "$(docker ps -q -f name=="$cname" -f status=running)" ];
-  then
+    echo "found container $cname"
+    if [ "$(docker container inspect $cname -f '{{.State.Status}}')"!="running" ]
+    then
+      echo "attempting to start container $cname"
+      docker start "$cname"
+    fi
     echo "entering started container $cname"
-    # shellcheck disable=SC2154
     docker exec -it $user $wfolder $evars $cname bash
   else
     echo "creating, starting and then entering container $cname"
@@ -79,6 +79,3 @@ then
 else
    echo "image $iname not found"
 fi
-
-
-
