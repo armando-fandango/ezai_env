@@ -38,13 +38,13 @@ conda config --env --remove channels defaults
 #jupyter nbextension enable --user codefolding/main
 
 #conda config --env --prepend channels nvidia
-conda install -y -S -c conda-forge "cudatoolkit=11.0" "cudnn<=8.0.4"
+conda install -y -S -c conda-forge "cudatoolkit=10.1" "cudnn<=7.6.0"
 # NCCL is linux only : conda install -y -S -p $venv -c conda-forge nccl mpi4py gxx_linux-64 gcc_linux-64
 
 conda config --env --prepend channels pytorch
 conda config --env --prepend channels fastai
 conda config --show-sources
-conda install -y -S "fastai=2.0.0" "pytorch=1.7.0" "torchvision=0.8.1" "numpy=1.19.2"
+conda install -y -S "fastai=2.0.0" "pytorch=1.7.0" "torchvision=0.8.1" "numpy<1.19.0"
 conda install -y -S --file $condatxt
 # install pip with no-deps so it doesnt mess up conda installed versions
 pip install --no-cache-dir -r $piptxt
