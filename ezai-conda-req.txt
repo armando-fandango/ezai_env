@@ -14,7 +14,6 @@ twine  # for pypi
 
 # basic data science
 hypothesis>=3.58 # needed by pandas but doesnt install on win64
-numpy<1.19.0  # remove once tensorflow
 scipy>=1.5.0
 pandas>=1.1.0
 matplotlib>=3.3.0
@@ -75,23 +74,24 @@ scikit-optimize
 python-snappy
 pyarrow>=1.0  #  dont use fastparquet
 dask>=2.23
-h5py>=2.10
+h5py=2.10.0
 
 # **** required by pips
 
 # required by tf
+google-pasta=0.2
 protobuf
 absl-py
 wrapt
 astunparse
 termcolor
 opt-einsum
-gast
+gast=0.3.3
 flatbuffers
 # required by tf ends
 
 # required by tensorboard
-grpcio
+grpcio=1.32.0
 markdown
 werkzeug
 google-auth-oauthlib

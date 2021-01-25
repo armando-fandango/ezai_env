@@ -12,7 +12,7 @@ keras-applications
 keras-preprocessing
 keras-tuner
 # needed for tensorflow ends
-tensorflow>=2.2.0
+tensorflow>=2.4.0
 
 # needed for gym
 opencv-python
