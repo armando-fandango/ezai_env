@@ -24,9 +24,9 @@ cutecharts
 #neo4j
 
 # unity begin  release_6 c# v1.3.0
-mlagents==0.23.0
-mlagents_envs==0.23.0
-gym_unity==0.23.0
+mlagents==0.19.0
+mlagents_envs==0.19.0
+gym_unity==0.19.0
 # unity end
 
 ezai_util
